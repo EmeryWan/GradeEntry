@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>782</width>
+    <height>873</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>微软雅黑</family>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>490</y>
+      <width>401</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>请到需要录成绩的页面并选择Excel后再点击开始按钮</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_top_info">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>781</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>901</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>软件关闭后浏览器也会同关闭，如需要浏览器请不要关闭此程序</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_excel_file">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>50</y>
+      <width>741</width>
+      <height>431</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>请选择需要的 Excel 文件</string>
+    </property>
+    <widget class="QGroupBox" name="groupBox_excel_info">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>250</y>
+       <width>701</width>
+       <height>161</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Excel 读取内容设置</string>
+     </property>
+     <widget class="QComboBox" name="comboBox_excel_sheet">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>40</y>
+        <width>221</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>请选择Sheet</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QComboBox" name="comboBox_get_mode">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>100</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>成绩按列存放</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>成绩按行存放</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QComboBox" name="comboBox_get_row">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>100</y>
+        <width>91</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>行</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QComboBox" name="comboBox_get_col">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>100</y>
+        <width>91</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>列</string>
+       </property>
+      </item>
+     </widget>
+    </widget>
+    <widget class="QListWidget" name="listWidget_excel_list">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>561</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="whatsThis">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_select_excel">
+     <property name="geometry">
+      <rect>
+       <x>610</x>
+       <y>60</y>
+       <width>101</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>选择</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_re_view_excel">
+     <property name="geometry">
+      <rect>
+       <x>610</x>
+       <y>140</y>
+       <width>101</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>刷新显示</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_advance">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>610</y>
+      <width>741</width>
+      <height>231</height>
+     </rect>
+    </property>
+    <property name="mouseTracking">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>高级</string>
+    </property>
+    <widget class="QGroupBox" name="groupBox_page_control">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>90</y>
+       <width>681</width>
+       <height>121</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>选择需要控制的浏览器页面,只有该页面会被程序控制</string>
+     </property>
+     <widget class="QComboBox" name="comboBox_get_page">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>50</y>
+        <width>361</width>
+        <height>41</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_page_control">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>50</y>
+        <width>101</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>选择</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_re_page_view">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>50</y>
+        <width>101</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>刷新显示</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QPushButton" name="btn_click_checkbox">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>271</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>点击页面中的所有CheckBox</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_advance">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>560</y>
+      <width>91</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="text">
+     <string>高级选项</string>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_start">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>490</y>
+      <width>221</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>开始录入</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <tabstops>
+  <tabstop>listWidget_excel_list</tabstop>
+  <tabstop>btn_select_excel</tabstop>
+  <tabstop>btn_page_control</tabstop>
+  <tabstop>comboBox_get_page</tabstop>
+  <tabstop>btn_re_view_excel</tabstop>
+  <tabstop>comboBox_get_mode</tabstop>
+  <tabstop>comboBox_excel_sheet</tabstop>
+  <tabstop>comboBox_get_row</tabstop>
+  <tabstop>comboBox_get_col</tabstop>
+  <tabstop>btn_start</tabstop>
+  <tabstop>btn_re_page_view</tabstop>
+  <tabstop>checkBox_advance</tabstop>
+  <tabstop>btn_click_checkbox</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
