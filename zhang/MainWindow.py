@@ -11,7 +11,10 @@ class Window(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        # 一些元素
+
         # 开启要执行的动作
+        self.setFixedSize(self.width(), self.height())
         self.get_all_excel()
 
         # 控件操作
@@ -19,7 +22,8 @@ class Window(QMainWindow):
         self.ui.checkBox_advance.stateChanged.connect(self.set_advance_visible)
         self.ui.btn_re_view_excel.clicked.connect(self.get_all_excel)
         self.ui.btn_select_excel.clicked.connect(self.get_this_excel)
-        self.ui.comboBox_excel_sheet.currentIndexChanged.connect(self.get_row_col_info())
+        # self.ui.comboBox_excel_sheet.currentIndexChanged.connect(self.get_row_col_info)
+        self.ui.comboBox_excel_sheet.currentTextChanged.connect(self.get_row_col_info)
 
     def set_advance_visible(self):
         """ 设置高级是否可见 """
@@ -30,7 +34,7 @@ class Window(QMainWindow):
 
     def get_all_excel(self):
         """ 获得所有的excel """
-        path = "..\\excel\\"
+        path = r"..//excel"
         files = os.listdir(path)
         print(files)
         self.ui.listWidget_excel_list.clear()
@@ -46,6 +50,8 @@ class Window(QMainWindow):
             # 读取并获得sheet信息
             sheet_list = ['1', '2', '3']
             # 将sheet信息写到控件
+            self.ui.comboBox_excel_sheet.clear()
+            self.ui.comboBox_excel_sheet.addItem('请选择Sheet')
             self.ui.comboBox_excel_sheet.addItems(sheet_list)
         except:
             print("qqq")
@@ -59,8 +65,14 @@ class Window(QMainWindow):
         row = 17
         col = 18
         # 将信息填进去
-        for i in range(17):
-            self.ui.comboBox_get_row.addItem(str(i+1))
+        self.ui.comboBox_get_row.clear()
+        self.ui.comboBox_get_row.addItem('请选择行')
+        self.ui.comboBox_get_col.clear()
+        self.ui.comboBox_get_col.addItem('请选择列')
+        for i in range(row):
+            self.ui.comboBox_get_row.addItem(str(i + 1))
+        for j in range(col):
+            self.ui.comboBox_get_col.addItem(str(j + 1))
 
     def start_entry(self):
         """
@@ -71,12 +83,14 @@ class Window(QMainWindow):
         # 读取行列数据
         # 调用方法 获得数据
         # 向浏览器页面填充数据
-        pass
-
+        row = self.ui.comboBox_get_row
+        col = self.ui.comboBox_get_col
+        sheet = self.ui.comboBox_excel_sheet
 
     """
     高级部分
     """
+
     def check_box(self):
         pass
 

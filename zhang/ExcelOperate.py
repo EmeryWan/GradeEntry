@@ -10,7 +10,7 @@ def find_excel_file():
     """
     将目录下的文件显示到框中
     """
-    path = os.getcwd() + "\\excel"
+    path = os.getcwd() + "..//excel"
     files = os.listdir(path)
     for file in files:
         excel_file_list.append(file)

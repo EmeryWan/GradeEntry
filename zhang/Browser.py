@@ -1,6 +1,6 @@
 from selenium import webdriver
 
-path = r"..//configure//chromedriver.exe"
+path = r"..//configure//chromedriver"
 
 option = webdriver.ChromeOptions()
 option.add_argument('disable-infobars')
