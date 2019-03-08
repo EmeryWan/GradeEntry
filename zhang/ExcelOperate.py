@@ -24,7 +24,7 @@ def sheet_info(name):
     """
     global use_excel
 
-    use_excel= xlrd.open_workbook(os.getcwd() + "\\file\\" + name)
+    use_excel = xlrd.open_workbook(os.getcwd() + "\\file\\" + name)
     # ['平时成绩', 'Sheet2', '考核成绩']
     sheet_names = use_excel.sheet_names()
     return sheet_names
@@ -44,6 +44,7 @@ def row_col_info(sheet_name):
     row = sheet_selected.nrows
     col = sheet_selected.ncols
     return row, col
+
 
 def grade_info(selected_row, selected_col, mode):
     start_row = selected_row - 1
