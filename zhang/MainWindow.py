@@ -2,7 +2,8 @@ import os
 
 from PyQt5.QtWidgets import QMainWindow
 
-from zhang.EntryWindow import Ui_MainWindow
+from zhang.BrowserSingleton import BrowserSingleton
+from zhang.ui.EntryWindow import Ui_MainWindow
 
 
 class Window(QMainWindow):
@@ -10,6 +11,10 @@ class Window(QMainWindow):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+        # 线程
+        b = BrowserSingleton()
+        b.get_browser()
 
         # 一些元素
 
@@ -19,6 +24,7 @@ class Window(QMainWindow):
 
         # 控件操作
         self.ui.groupBox_advance.setVisible(False)
+        # self.setFixedSize(self.width(), self.height() - 180)
         self.ui.checkBox_advance.stateChanged.connect(self.set_advance_visible)
         self.ui.btn_re_view_excel.clicked.connect(self.get_all_excel)
         self.ui.btn_select_excel.clicked.connect(self.get_this_excel)
@@ -29,7 +35,9 @@ class Window(QMainWindow):
         """ 设置高级是否可见 """
         if self.ui.checkBox_advance.isChecked():
             self.ui.groupBox_advance.setVisible(True)
+            self.setFixedSize(self.width(), self.height() + 180)
         else:
+            self.setFixedSize(self.width(), self.height() - 180)
             self.ui.groupBox_advance.setVisible(False)
 
     def get_all_excel(self):

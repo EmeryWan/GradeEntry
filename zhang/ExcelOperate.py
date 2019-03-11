@@ -1,49 +1,10 @@
 import os
+from typing import Any
 
 import xlrd as xlrd
 
-excel_file_list = []
-name_course = []
-
-
-def find_excel_file():
-    """
-    将目录下的文件显示到框中
-    """
-    path = os.getcwd() + "..//excel"
-    files = os.listdir(path)
-    for file in files:
-        excel_file_list.append(file)
-    return excel_file_list
-
-
-def sheet_info(name):
-    """
-    通过名字打开一个Excel
-    返回excel的sheet名 显示到下拉列表
-    """
-    global use_excel
-
-    use_excel = xlrd.open_workbook(os.getcwd() + "\\file\\" + name)
-    # ['平时成绩', 'Sheet2', '考核成绩']
-    sheet_names = use_excel.sheet_names()
-    return sheet_names
-
-
-def row_col_info(sheet_name):
-    """
-    通过选择的sheet 获取行列信息显示到下拉列表
-    """
-    global sheet_selected
-
-    sheet_selected = use_excel.sheet_by_name(sheet_name)
-
-    global row
-    global col
-
-    row = sheet_selected.nrows
-    col = sheet_selected.ncols
-    return row, col
+# excel_file_list = []
+# name_course = []
 
 
 def grade_info(selected_row, selected_col, mode):
@@ -52,3 +13,76 @@ def grade_info(selected_row, selected_col, mode):
 
     if len(name_course) > 0:
         name_course.clear()
+
+
+class Excel:
+    # 文件夹中excel的列表
+    excel_file_list = []
+
+    def __init__(self):
+
+        # 读取所有的文件
+        self.find_all_excel()
+        # 选择的excel名
+        self.__excel_name = None
+        # 选择的excel对象
+        self.__excel_selected = None
+        # 所有的sheet
+        self.__sheet_list = []
+        # 选择的sheet名
+        self.__sheet_name = []
+        # 选择的sheet对象
+        self.__sheet_selected = None
+
+    def find_all_excel(self):
+        """
+        将目录下的文件显示到框中
+        """
+        path = os.getcwd() + "..//excel"
+        files = os.listdir(path)
+        for file in files:
+            self.excel_file_list.append(file)
+        return self.excel_file_list
+
+    def __get_sheets(self):
+        self.__excel_selected = xlrd.open_workbook(os.getcwd() + r"..//excel/" + self.__excel_name)
+        # ['平时成绩', 'Sheet2', '考核成绩']
+        self.__sheet_list = self.__excel_selected.sheet_names()
+
+    def row_col_length(self, sheet_name):
+        self.__sheet_selected = self.__excel_selected.sheet_by_name(sheet_name)
+        row = self.__sheet_selected.nrows
+        col = self.__sheet_selected.ncols
+        return row, col
+
+    def info(self, row, col):
+        pass
+
+    @property
+    def excel_name(self):
+        return self.__excel_name
+
+    @excel_name.setter
+    def excel_name(self, excel_name):
+        self.__excel_name = excel_name
+        self.__get_sheets()
+
+    @property
+    def excel_selected(self):
+        return self.__excel_selected
+
+    @property
+    def sheet_list(self):
+        return self.__sheet_list
+
+    @sheet_list.setter
+    def sheet_list(self, sheet_list):
+        self.__sheet_list = sheet_list
+
+    @property
+    def sheet_selected(self):
+        return self.__sheet_selected
+
+    @sheet_selected.setter
+    def sheet_selected(self, sheet_selected):
+        self.__sheet_selected = sheet_selected
