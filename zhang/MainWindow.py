@@ -3,6 +3,7 @@ import os
 from PyQt5.QtWidgets import QMainWindow
 
 from zhang.BrowserSingleton import BrowserSingleton
+from zhang.ExcelOperate import Excel
 from zhang.ui.EntryWindow import Ui_MainWindow
 
 
@@ -12,9 +13,12 @@ class Window(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        # 线程
+        # 浏览器线程
         b = BrowserSingleton()
         b.get_browser()
+
+        # excel 线程
+        self.excel = Excel()
 
         # 一些元素
 
@@ -27,8 +31,7 @@ class Window(QMainWindow):
         # self.setFixedSize(self.width(), self.height() - 180)
         self.ui.checkBox_advance.stateChanged.connect(self.set_advance_visible)
         self.ui.btn_re_view_excel.clicked.connect(self.get_all_excel)
-        self.ui.btn_select_excel.clicked.connect(self.get_this_excel)
-        # self.ui.comboBox_excel_sheet.currentIndexChanged.connect(self.get_row_col_info)
+        self.ui.btn_select_excel.clicked.connect(self.fill_sheet_comboBox)
         self.ui.comboBox_excel_sheet.currentTextChanged.connect(self.get_row_col_info)
 
     def set_advance_visible(self):
@@ -42,15 +45,23 @@ class Window(QMainWindow):
 
     def get_all_excel(self):
         """ 获得所有的excel """
-        path = r"..//excel"
-        files = os.listdir(path)
-        print(files)
+        excel_list = self.excel.excel_file_list
         self.ui.listWidget_excel_list.clear()
-        for file in files:
-            print(file)
-            self.ui.listWidget_excel_list.addItem(str(file))
+        self.ui.listWidget_excel_list.addItems(excel_list)
 
-    def get_this_excel(self):
+    def fill_sheet_comboBox(self):
+        e_name = self.ui.listWidget_excel_list.currentItem()
+        print(e_name)
+        print(e_name.text())
+        self.excel.excel_name = e_name.text()
+        self.excel.get_sheets()
+        sheet_list = self.excel.sheet_list
+        print(sheet_list)
+        self.ui.comboBox_excel_sheet.clear()
+        self.ui.comboBox_excel_sheet.addItem('请选择Sheet')
+        self.ui.comboBox_excel_sheet.addItems(sheet_list)
+
+    def choose_this_excel(self):
         """ 选择要的excel 更新sheet部分 """
         try:
             # 选择excel
@@ -66,21 +77,23 @@ class Window(QMainWindow):
 
     def get_row_col_info(self):
         """ 选择sheet 更新 row col """
-
-        # 得到选择的sheet
-
-        # 获得行列信息
-        row = 17
-        col = 18
-        # 将信息填进去
-        self.ui.comboBox_get_row.clear()
-        self.ui.comboBox_get_row.addItem('请选择行')
-        self.ui.comboBox_get_col.clear()
-        self.ui.comboBox_get_col.addItem('请选择列')
-        for i in range(row):
-            self.ui.comboBox_get_row.addItem(str(i + 1))
-        for j in range(col):
-            self.ui.comboBox_get_col.addItem(str(j + 1))
+        print(self.ui.comboBox_excel_sheet.currentIndex())
+        if self.ui.comboBox_excel_sheet.currentIndex() != -1:
+            # 得到选择的sheet
+            sheet_selected = self.ui.comboBox_excel_sheet.currentText()
+            print(sheet_selected)
+            self.excel.sheet_name = str(sheet_selected)
+            # 获得行列信息
+            row, col = self.excel.row_col_length()
+            # 将信息填进去
+            self.ui.comboBox_get_row.clear()
+            self.ui.comboBox_get_row.addItem('选择行')
+            self.ui.comboBox_get_col.clear()
+            self.ui.comboBox_get_col.addItem('选择列')
+            for i in range(row):
+                self.ui.comboBox_get_row.addItem(str(i))
+            for j in range(col):
+                self.ui.comboBox_get_col.addItem(str(j))
 
     def start_entry(self):
         """
