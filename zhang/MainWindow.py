@@ -38,9 +38,9 @@ class Window(QMainWindow):
         """ 设置高级是否可见 """
         if self.ui.checkBox_advance.isChecked():
             self.ui.groupBox_advance.setVisible(True)
-            self.setFixedSize(self.width(), self.height() + 180)
+            # self.setFixedSize(self.width(), self.height() + 180)
         else:
-            self.setFixedSize(self.width(), self.height() - 180)
+            # self.setFixedSize(self.width(), self.height() - 180)
             self.ui.groupBox_advance.setVisible(False)
 
     def get_all_excel(self):
@@ -77,23 +77,26 @@ class Window(QMainWindow):
 
     def get_row_col_info(self):
         """ 选择sheet 更新 row col """
-        print(self.ui.comboBox_excel_sheet.currentIndex())
-        if self.ui.comboBox_excel_sheet.currentIndex() != -1:
-            # 得到选择的sheet
-            sheet_selected = self.ui.comboBox_excel_sheet.currentText()
-            print(sheet_selected)
-            self.excel.sheet_name = str(sheet_selected)
-            # 获得行列信息
-            row, col = self.excel.row_col_length()
-            # 将信息填进去
-            self.ui.comboBox_get_row.clear()
-            self.ui.comboBox_get_row.addItem('选择行')
-            self.ui.comboBox_get_col.clear()
-            self.ui.comboBox_get_col.addItem('选择列')
-            for i in range(row):
-                self.ui.comboBox_get_row.addItem(str(i))
-            for j in range(col):
-                self.ui.comboBox_get_col.addItem(str(j))
+        try:  # 因为第一个是中文提示会报错　一定要try
+            print(self.ui.comboBox_excel_sheet.currentIndex())
+            if self.ui.comboBox_excel_sheet.currentIndex() != -1:
+                # 得到选择的sheet
+                sheet_selected = self.ui.comboBox_excel_sheet.currentText()
+                print(sheet_selected)
+                self.excel.sheet_name = str(sheet_selected)
+                # 获得行列信息
+                row, col = self.excel.row_col_length()
+                # 将信息填进去
+                self.ui.comboBox_get_row.clear()
+                self.ui.comboBox_get_row.addItem('选择行')
+                self.ui.comboBox_get_col.clear()
+                self.ui.comboBox_get_col.addItem('选择列')
+                for i in range(row):
+                    self.ui.comboBox_get_row.addItem(str(i))
+                for j in range(col):
+                    self.ui.comboBox_get_col.addItem(str(j))
+        except:
+            pass
 
     def start_entry(self):
         """
