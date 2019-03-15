@@ -1,26 +1,73 @@
-import os
-
+from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QMainWindow
 
-from zhang.BrowserSingleton import BrowserSingleton
-from zhang.ExcelOperate import Excel
 from zhang.ui.EntryWindow import Ui_MainWindow
 
 
+class ExcelReadThread(QThread):
+    """
+    接收　sheet实例对象　row col
+    读取成绩信息
+    返回　成绩列表集合信号
+    """
+    grade_single_out = pyqtSignal(list)
+
+    def __init__(self, parent=None, sheet=None, row=None, col=None):
+        super(ExcelReadThread, self).__init__(parent)
+        self.working = True
+        self.sheet = sheet
+        self.row = row
+        self.col = col
+
+    def __del__(self):
+        self.working = False
+        self.wait()
+
+    def run(self):
+        """
+        获得列表　返回信号
+        :return:
+        """
+        pass
+
+
+class BrowserFromEntryThread(QThread):
+    """
+    接收browser 对象
+    查找页面form
+    填充form
+    """
+
+    def __init__(self, parent=None, browser=None):
+        super(BrowserFromEntryThread, self).__init__(parent)
+        self.working = True
+        self.browser = browser
+
+    def __del__(self):
+        self.working = False
+        self.wait()
+
+    def run(self):
+        """
+        执行填充动作
+        :return:
+        """
+        pass
+
+
 class Window(QMainWindow):
-    def __init__(self):
+
+    def __init__(self, browser, excel):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        # 浏览器线程
-        b = BrowserSingleton()
-        b.get_browser()
-
-        # excel 线程
-        self.excel = Excel()
-
-        # 一些元素
+        self.browser = browser
+        self.excel = excel
+        # path = r"..//config//chromedriver"
+        # option = webdriver.ChromeOptions()
+        # option.add_argument('disable-infobars')
+        # self.brow = webdriver.Chrome(executable_path=path, options=option)
 
         # 开启要执行的动作
         self.setFixedSize(self.width(), self.height())
