@@ -1,3 +1,5 @@
+import time
+
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QMainWindow
 
@@ -6,16 +8,16 @@ from zhang.ui.EntryWindow import Ui_MainWindow
 
 class ExcelReadThread(QThread):
     """
-    接收　sheet实例对象　row col
+    接收　excel实例对象　row col
     读取成绩信息
     返回　成绩列表集合信号
     """
     grade_single_out = pyqtSignal(list)
 
-    def __init__(self, parent=None, sheet=None, row=None, col=None):
+    def __init__(self, parent=None, excel=None, row=None, col=None):
         super(ExcelReadThread, self).__init__(parent)
         self.working = True
-        self.sheet = sheet
+        self.excel = excel
         self.row = row
         self.col = col
 
@@ -23,12 +25,24 @@ class ExcelReadThread(QThread):
         self.working = False
         self.wait()
 
+    def set_excel(self, excel):
+        self.excel = excel
+
+    def set_row(self, row):
+        self.row = row
+
+    def set_col(self, col):
+        self.col = col
+
     def run(self):
         """
         获得列表　返回信号
         :return:
         """
-        pass
+        # [] 分数列表
+        info = self.excel.info(row_in=self.row, col_in=self.col)
+        print('thread :', info)
+        self.grade_single_out.emit(info)
 
 
 class BrowserFromEntryThread(QThread):
@@ -69,6 +83,8 @@ class Window(QMainWindow):
         # option.add_argument('disable-infobars')
         # self.brow = webdriver.Chrome(executable_path=path, options=option)
 
+        self.grade_list = []
+
         # 开启要执行的动作
         self.setFixedSize(self.width(), self.height())
         self.get_all_excel()
@@ -80,6 +96,16 @@ class Window(QMainWindow):
         self.ui.btn_re_view_excel.clicked.connect(self.get_all_excel)
         self.ui.btn_select_excel.clicked.connect(self.fill_sheet_comboBox)
         self.ui.comboBox_excel_sheet.currentTextChanged.connect(self.get_row_col_info)
+        self.ui.btn_start.clicked.connect(self.start_entry)
+
+        # 线程
+        self.excel_info_thread = ExcelReadThread(excel=excel)
+        self.browser_from_entry_thread = BrowserFromEntryThread()
+        self.excel_info_thread.grade_single_out.connect(self.get_info)
+
+    def get_info(self, grade_list):
+        print(grade_list)
+        self.grade_list = grade_list
 
     def set_advance_visible(self):
         """ 设置高级是否可见 """
@@ -154,9 +180,20 @@ class Window(QMainWindow):
         # 读取行列数据
         # 调用方法 获得数据
         # 向浏览器页面填充数据
-        row = self.ui.comboBox_get_row
-        col = self.ui.comboBox_get_col
+        row = self.ui.comboBox_get_row.currentText()
+        col = self.ui.comboBox_get_col.currentText()
         sheet = self.ui.comboBox_excel_sheet
+
+        self.ui.btn_start.setEnabled(False)
+        self.excel_info_thread.set_col(col)
+        self.excel_info_thread.set_row(row)
+        print('start: ', col, ' ', row)
+        time.sleep(1)
+        # 将数据存入list
+        self.excel_info_thread.start()
+        time.sleep(10)
+        print("---------------")
+        print(self.grade_list)
 
     """
     高级部分

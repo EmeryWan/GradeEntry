@@ -54,9 +54,9 @@ class Excel:
 
     def info(self, row_in, col_in):
         grade = []
-        for row in range(row_in, len(self.__sheet_selected.ncols)):
+        for row in range(int(row_in), int(self.__sheet_selected.ncols)):
             try:
-                temp = int(self.__sheet_selected.col_values(col_in)[row])
+                temp = int(self.__sheet_selected.col_values(int(col_in))[row])
             except ValueError:
                 temp = 0
             except:
