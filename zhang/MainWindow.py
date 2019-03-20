@@ -3,7 +3,10 @@ import time
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QMainWindow
 
+from zhang import log
 from zhang.ui.EntryWindow import Ui_MainWindow
+
+logger = log.logger
 
 
 class ExcelReadThread(QThread):
@@ -52,21 +55,27 @@ class BrowserFromEntryThread(QThread):
     填充form
     """
 
-    def __init__(self, parent=None, browser=None):
+    def __init__(self, parent=None, browser=None, grade_list=None):
         super(BrowserFromEntryThread, self).__init__(parent)
         self.working = True
         self.browser = browser
+        self.grade_list = grade_list
 
     def __del__(self):
         self.working = False
         self.wait()
 
+    def set_browser(self, browser):
+        self.browser = browser
+
+    def set_grade_list(self, grade_list):
+        self.grade_list = grade_list
+
     def run(self):
         """
         执行填充动作
-        :return:
         """
-        pass
+        self.browser.start_entry_data(grade_list=self.grade_list)
 
 
 class Window(QMainWindow):
@@ -100,8 +109,8 @@ class Window(QMainWindow):
 
         # 线程
         self.excel_info_thread = ExcelReadThread(excel=excel)
-        self.browser_from_entry_thread = BrowserFromEntryThread()
         self.excel_info_thread.grade_single_out.connect(self.get_info)
+        self.browser_entry_thread = BrowserFromEntryThread(browser=browser)
 
     def get_info(self, grade_list):
         print(grade_list)
@@ -183,17 +192,18 @@ class Window(QMainWindow):
         row = self.ui.comboBox_get_row.currentText()
         col = self.ui.comboBox_get_col.currentText()
         sheet = self.ui.comboBox_excel_sheet
-
+        print('start: ', col, ' ', row)
         self.ui.btn_start.setEnabled(False)
+        self.start_excel_info_thread(row, col)
+        self.start_browser_thread()
+
+    def start_excel_info_thread(self, row, col):
         self.excel_info_thread.set_col(col)
         self.excel_info_thread.set_row(row)
-        print('start: ', col, ' ', row)
-        time.sleep(1)
-        # 将数据存入list
         self.excel_info_thread.start()
-        time.sleep(10)
-        print("---------------")
-        print(self.grade_list)
+
+    def start_browser_thread(self):
+        self.browser_entry_thread.start()
 
     """
     高级部分

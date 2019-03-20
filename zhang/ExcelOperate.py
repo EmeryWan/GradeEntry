@@ -100,14 +100,14 @@ class SheetInfo:
         self.__col = col
 
 
-if __name__ == '__main__':
-    e = Excel()
-    print(e.excel_file_list)
-    e.excel_name = "20181-4.xlsx"
-    e.get_sheets()
-    print(e.sheet_list)
-    e.sheet_name = "平时成绩"
-    r, c = e.row_col_length()
-    print(r, c)
-    print(e.sheet_selected.cell(rowx=5, colx=1).value)
-    print(e.sheet_selected.cell(rowx=26, colx=26).value)
+# if __name__ == '__main__':
+#     e = Excel()
+#     print(e.excel_file_list)
+#     e.excel_name = "20181-4.xlsx"
+#     e.get_sheets()
+#     print(e.sheet_list)
+#     e.sheet_name = "平时成绩"
+#     r, c = e.row_col_length()
+#     print(r, c)
+#     print(e.sheet_selected.cell(rowx=5, colx=1).value)
+#     print(e.sheet_selected.cell(rowx=26, colx=26).value)
