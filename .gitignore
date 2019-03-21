@@ -1,6 +1,6 @@
 /venv/
 /test/
-/__pycache__/
+**/__pycache__/
 /.idea/
 ### Python template
 # Byte-compiled / optimized / DLL files
