@@ -1,29 +1,30 @@
+import threading
 from selenium import webdriver
+from zhang import log
+
+logger = log.logger
+logger.name = 'Browser Singleton'
 
 
 class BrowserSingleton:
-    brow = None
+    _instance_lock = threading.Lock()
+    __browser_instance = None
 
-    def __int__(self):
-        self.brow = None
-
-    def get_browser(self):
-        if self.brow is None:
-            try:
-                path = r"..//config//chromedriver"
-
-                option = webdriver.ChromeOptions()
-                option.add_argument('disable-infobars')
-                self.brow = webdriver.Chrome(executable_path=path, options=option)
-            except:
-                print("得不到浏览器")
-                return None
-        return self.brow
-
-    def close_browser(self):
+    def __init__(self):
         pass
 
-
-# if __name__ == "__main__":
-#     b = BrowserSingleton()
-#     b.get_browser()
+    @classmethod
+    def instance(cls, *args, **kwargs):
+        if BrowserSingleton.__browser_instance is None:
+            with BrowserSingleton._instance_lock:
+                if BrowserSingleton.__browser_instance is None:
+                    try:
+                        driver_path = r"..//config//chromedriver.exe"
+                        option = webdriver.ChromeOptions()
+                        option.add_argument('disable-infobars')
+                        BrowserSingleton.__browser_instance = webdriver.Chrome(executable_path=driver_path,
+                                                                               options=option)
+                    except:
+                        logger.error('！！！无法获得浏览器')
+                        BrowserSingleton.__browser_instance = None
+        return BrowserSingleton.__browser_instance

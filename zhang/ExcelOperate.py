@@ -2,20 +2,20 @@ import os
 
 import xlrd as xlrd
 
+from zhang.Settings import SettingsInfo
+
 
 class Excel:
+    # 存放excel的地址
+    __excel_files_path = SettingsInfo.EXCEL_FILES_PATH
     # 文件夹中excel的列表
     excel_file_list = []
 
     def __init__(self):
-
-        # 读取所有的文件
-        self.find_all_excel()
         # 选择的excel名
         self.__excel_name = None
         # 选择的excel对象
         self.__excel_selected = None
-
         # 所有的sheet
         self.__sheet_list = []
         # 选择的sheet名
@@ -23,38 +23,47 @@ class Excel:
         # 选择的sheet对象 sheet_by_name(sheet_names[sheet_name])
         self.__sheet_selected = None
 
-    def find_all_excel(self):
+    def get_all_excel(self):
         """
         将目录下的文件显示到框中
         """
-        path = "..//excel"
-        files = os.listdir(path)
-        # self.excel_file_list.clear()
-        for file in files:
-            # 需要排除临时文件  .~20181-4.xlsx
-            self.excel_file_list.append(file)
-        return self.excel_file_list
+        try:
+            files = os.listdir(Excel.__excel_files_path)
 
-    def get_sheets(self):
-        print(self.__excel_name)
-        # print(r"..//excel//" + self.__excel_name)
-        self.__excel_selected = xlrd.open_workbook(r"..//excel//" + self.__excel_name)
+            if len(self.excel_file_list) != 0:
+                self.excel_file_list.clear()
 
-        # ['平时成绩', 'Sheet2', '考核成绩']
-        self.__sheet_list = self.__excel_selected.sheet_names()
+            for file in files:
+                # 需要排除临时文件  .~20181-4.xlsx
+                if not file.startswith('.'):
+                    self.excel_file_list.append(file)
+            return self.excel_file_list
+        except:
+            print('无目标文件夹')
+            return None
+
+    def get_all_sheets(self):
+        try:
+            self.__excel_selected = xlrd.open_workbook(os.path.join(Excel.__excel_files_path, self.__excel_name))
+            # ['平时成绩', 'Sheet2', '考核成绩']
+            self.__sheet_list = self.__excel_selected.sheet_names()
+            return self.__sheet_list
+        except:
+            print('Excel被其他应用占用，无法获取')
+            return None
 
     def row_col_length(self):
-        self.__sheet_selected = self.__excel_selected.sheet_by_name(self.__sheet_name)
-        # 显示行列数是以1开始，取值时以0开始
-        row = self.__sheet_selected.nrows
-        print("row: ", row)
-        col = self.__sheet_selected.ncols
-        print("col: ", col)
-        return row, col
+        if self.__sheet_name is not None:
+            self.__sheet_selected = self.__excel_selected.sheet_by_name(self.__sheet_name)
+            # 显示行列数是以1开始，取值时以0开始
+            row = self.__sheet_selected.nrows
+            col = self.__sheet_selected.ncols
+            return row, col
+        return 0, 0
 
-    def info(self, row_in, col_in):
+    def grade_info(self, row_in, col_in):
         grade = []
-        for row in range(int(row_in), int(self.__sheet_selected.ncols)):
+        for row in range(int(row_in), int(self.__sheet_selected.nrows)):
             try:
                 temp = int(self.__sheet_selected.col_values(int(col_in))[row])
             except ValueError:
@@ -93,21 +102,23 @@ class Excel:
         return self.__sheet_selected
 
 
-class SheetInfo:
-    def __init__(self, sheet_name, row, col):
-        self.__sheet_selected = sheet_name
-        self.__row = row
-        self.__col = col
-
-
 # if __name__ == '__main__':
-#     e = Excel()
-#     print(e.excel_file_list)
-#     e.excel_name = "20181-4.xlsx"
-#     e.get_sheets()
-#     print(e.sheet_list)
-#     e.sheet_name = "平时成绩"
-#     r, c = e.row_col_length()
-#     print(r, c)
-#     print(e.sheet_selected.cell(rowx=5, colx=1).value)
-#     print(e.sheet_selected.cell(rowx=26, colx=26).value)
+#     excel = Excel()
+#
+#     # 获得所有文件
+#     excel_list = excel.get_all_excel()
+#     # ['20181-4.xlsx']
+#     print(excel_list)
+#
+#     # 获得一个文件的sheet
+#     excel.excel_name = '20181-4.xlsx'
+#     sheet_list = excel.get_all_sheets()
+#     # ['平时成绩', 'Sheet2', '考核成绩']
+#     print(sheet_list)
+#
+#     # 设置sheet信息
+#     excel.sheet_name = '考核成绩'
+#
+#     # 获得一个sheet的行列
+#     r, c = excel.row_col_length()
+#     print(r, " ", c)

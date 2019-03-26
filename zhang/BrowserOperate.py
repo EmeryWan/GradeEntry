@@ -1,6 +1,112 @@
-import re
+import time
 
 from zhang.BrowserSingleton import BrowserSingleton
+from zhang.Settings import SettingsInfo
+
+
+class Browser:
+
+    def __init__(self):
+        self.browser = BrowserSingleton.instance()
+        self.browser.get(SettingsInfo.WEBSITE)
+        # logger.info('打开浏览器，打开 {}'.format(WEBSITE))
+        time.sleep(3)
+        self.__login_input()
+        # 需要填充成绩的input列表
+        self.__input_elements = []
+
+    def __login_input(self):
+        try:
+            login_form = self.browser.find_element_by_id('login-action')
+        except:
+            login_form = None
+
+        if login_form is not None:
+            print("login")
+            print(SettingsInfo.USER_ID)
+            print(SettingsInfo.PASSWORD)
+            if SettingsInfo.USER_ID is not None:
+                login_form.find_element_by_id('inputUser').send_keys(SettingsInfo.USER_ID)
+            if SettingsInfo.PASSWORD is not None:
+                login_form.find_element_by_id('inputPassword').send_keys(SettingsInfo.PASSWORD)
+
+    def __find_table(self):
+        # 获得table的上一级div
+        try:
+            parent_div = self.browser.find_element_by_class_name('data-tab')
+            table = parent_div.find_element_by_tag_name('table')
+            trs = table.find_elements_by_tag_name('tr')
+        except:
+            trs = None
+        return trs
+
+    def __find_input(self):
+        trs = self.__find_table()
+
+        if trs is not None:
+            # 获得不是hidden的input
+            for tr in trs:
+                try:
+                    inputs_in_tr = tr.find_elements_by_tag_name('input')
+                    for ip in inputs_in_tr:
+                        if ip.get_attribute('type') == 'text':
+                            self.__input_elements.append(ip)
+                except:
+                    # 第一行没有可输入的input
+                    pass
+        else:
+            print("error !没有找到input")
+
+    def __do_input(self, grade_list):
+
+        if len(self.__input_elements) != 0:
+            for index, ip in enumerate(self.__input_elements):
+                # 处理第一次可能输入了数据，临时保存过需要更改
+                try:
+                    value = ip.get_attribute('value')
+                    if value == '':
+                        value = None
+                except:
+                    value = None
+
+                if value is not None:  # 原始有数据 显示取消资格或重新录入新成绩
+                    if is_num(str(ip.get_attribute('value'))):
+                        ip.clear()
+                        ip.send_keys(grade_list[index])
+                    else:
+                        # 中文字 取消资格
+                        pass
+                else:
+                    ip.send_keys(grade_list[index])
+
+    def start_entry_data(self, grade_list):
+        # 查找本页面中的input(text)
+        self.__find_input()
+        # 输入
+        self.__do_input(grade_list)
+
+    def click_all_checkbox(self):
+        trs = self.__find_table()
+        # 找到一行中的checkbox
+        for tr in trs:
+            try:
+                input_in_tr = tr.find_elements_by_tag_name('input')
+                for ip in input_in_tr:
+                    if ip.get_attribute('type') == 'checkbox':
+                        ip.click()
+                    else:
+                        pass
+            except:
+                pass
+        # logger.info('本页面的checkbox填充完毕')
+
+    def list_browser_window(self):
+        # handles = self.browser.current_window_handle
+        handles = self.browser.title
+        return handles
+
+    def change_control_window(self, num):
+        pass
 
 
 def is_num(num):
@@ -9,76 +115,3 @@ def is_num(num):
         return True
     except:
         return False
-
-
-class Browser:
-
-    def __init__(self):
-        self.browser_singleton = BrowserSingleton()
-        self.browser = self.browser_singleton.get_browser()
-        self.browser.get('http://jwxt.ecjtu.jx.cn')
-        # self.browser.get(r'file:///home/emery/%E6%A1%8C%E9%9D%A2/%E5%BC%A0%E8%80%81%E5%B8%88/%E6%8F%90%E4%BA%A4%E5%90%8E/%E6%88%90%E7%BB%A9%E5%BD%95%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F.html')
-        # self.browser.maximize_window()
-
-        self.__input_elements = []
-
-    def __find_input(self):
-        # 获得table的上一级div
-        parent_div = self.browser.find_element_by_class_name('data-tab')
-        # 获得table
-        table = parent_div.find_element_by_tag_name('table')
-
-        # 查找每一个tr
-        trs = table.find_elements_by_tag_name('tr')
-
-        # 获得不是hidden的input
-        for tr in trs:
-            try:
-                inputs_in_tr = tr.find_elements_by_tag_name('input')
-                for ip in inputs_in_tr:
-                    if ip.get_attribute('type') == 'text':
-                        self.__input_elements.append(ip)
-            except:
-                pass
-
-    def __do_input(self, grade_list):
-        for index, ip in enumerate(self.__input_elements):
-
-            try:
-                value = ip.get_attribute('value')
-                if value == '':
-                    value = None
-            except:
-                value = None
-
-            if value is not None:
-                if is_num(str(ip.get_attribute('value'))):
-                    print('su')
-                    ip.clear()
-                    ip.send_keys(grade_list[index])
-                else:
-                    pass
-                    # 中文字 取消资格
-            else:
-                ip.send_keys(grade_list[index])
-
-    def start_entry_data(self, grade_list):
-        self.__find_input()
-        self.__do_input(grade_list)
-
-    def list_browser_window(self):
-        pass
-
-    def change_control_window(self):
-        pass
-
-
-if __name__ == '__main__':
-    g = []
-    for i in range(1, 39):
-        g.append(i)
-
-    b = Browser()
-    a = input()
-
-    b.start_entry_data(g)
