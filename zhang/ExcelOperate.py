@@ -35,8 +35,10 @@ class Excel:
 
             for file in files:
                 # 需要排除临时文件  .~20181-4.xlsx
-                if not file.startswith('.'):
-                    self.excel_file_list.append(file)
+                if not file.startswith('.') and not file.startswith('~') and not file.startswith(
+                        '~$') and not file.startswith('^'):
+                    if file.endswith('xlsx') or file.endswith('xls'):
+                        self.excel_file_list.append(file)
             return self.excel_file_list
         except:
             print('无目标文件夹')
@@ -62,16 +64,22 @@ class Excel:
         return 0, 0
 
     def grade_info(self, row_in, col_in):
+
+        row_total = self.__sheet_selected.nrows
+        col_total = self.__sheet_selected.ncols
         grade = []
-        for row in range(int(row_in), int(self.__sheet_selected.nrows)):
-            try:
-                temp = int(self.__sheet_selected.col_values(int(col_in))[row])
-            except ValueError:
-                temp = 0
-            except:
-                temp = 0
-            grade.append(temp)
-        return grade
+
+        if row_in <= row_total and col_in <= col_total:
+            for row in range(int(row_in), int(row_total)):
+                try:
+                    temp = int(self.__sheet_selected.col_values(int(col_in))[row])
+                except ValueError:
+                    temp = 0
+                except:
+                    temp = 0
+                grade.append(temp)
+            return grade
+        return None
 
     @property
     def excel_name(self):
@@ -100,7 +108,6 @@ class Excel:
     @property
     def sheet_selected(self):
         return self.__sheet_selected
-
 
 # if __name__ == '__main__':
 #     excel = Excel()

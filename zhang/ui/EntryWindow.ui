@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>533</width>
-    <height>607</height>
+    <width>501</width>
+    <height>651</height>
    </rect>
   </property>
   <property name="font">
@@ -20,524 +20,425 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="">
+   <widget class="QGroupBox" name="groupBox_advance">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
-      <width>513</width>
-      <height>561</height>
+      <y>530</y>
+      <width>481</width>
+      <height>81</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QLabel" name="label_top_info">
-       <property name="minimumSize">
-        <size>
-         <width>511</width>
-         <height>21</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>511</width>
-         <height>21</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>软件关闭后浏览器也会同关闭，如需要浏览器请不要关闭此程序</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_excel_file">
-       <property name="minimumSize">
-        <size>
-         <width>511</width>
-         <height>281</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>511</width>
-         <height>281</height>
-        </size>
-       </property>
-       <property name="title">
-        <string>请选择需要的 Excel 文件</string>
-       </property>
-       <widget class="QWidget" name="gridLayoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>30</y>
-          <width>461</width>
-          <height>142</height>
-         </rect>
+    <property name="mouseTracking">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>高级</string>
+    </property>
+    <widget class="QPushButton" name="btn_click_checkbox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>451</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>221</width>
+       <height>29</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>点击页面中的所有CheckBox</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_advance">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>500</y>
+      <width>91</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>91</width>
+      <height>27</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>91</width>
+      <height>27</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>高级选项</string>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_excel_file">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>481</width>
+      <height>351</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>请选择需要的 Excel 文件</string>
+    </property>
+    <widget class="QWidget" name="gridLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>462</width>
+       <height>149</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="12" column="1">
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
         </property>
-        <layout class="QGridLayout" name="gridLayout_2">
-         <item row="8" column="1">
-          <widget class="QPushButton" name="btn_select_excel">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>29</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>29</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>选择</string>
-           </property>
-          </widget>
-         </item>
-         <item row="9" column="1">
-          <widget class="QPushButton" name="btn_re_view_excel">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>29</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>29</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>刷新显示</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="0" rowspan="4">
-          <widget class="QListWidget" name="listWidget_excel_list">
-           <property name="minimumSize">
-            <size>
-             <width>373</width>
-             <height>140</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>373</width>
-             <height>140</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <property name="whatsThis">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <item>
-            <property name="text">
-             <string>新建项目</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>新建项目</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>新建项目</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>新建项目</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>新建项目</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>新建项目</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>新建项目</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>新建项目</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>新建项目</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>新建项目</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_excel_info">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>190</y>
-          <width>461</width>
-          <height>81</height>
-         </rect>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>28</height>
+         </size>
         </property>
+       </spacer>
+      </item>
+      <item row="9" column="1">
+       <widget class="QPushButton" name="btn_select_excel">
         <property name="minimumSize">
          <size>
-          <width>461</width>
-          <height>81</height>
+          <width>80</width>
+          <height>29</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>461</width>
-          <height>81</height>
+          <width>80</width>
+          <height>29</height>
          </size>
         </property>
-        <property name="title">
-         <string>Excel 读取内容设置</string>
+        <property name="text">
+         <string>选择</string>
         </property>
-        <widget class="QWidget" name="horizontalLayoutWidget">
-         <property name="geometry">
-          <rect>
-           <x>30</x>
-           <y>40</y>
-           <width>357</width>
-           <height>33</height>
-          </rect>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QComboBox" name="comboBox_excel_sheet">
-            <property name="minimumSize">
-             <size>
-              <width>201</width>
-              <height>31</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>201</width>
-              <height>31</height>
-             </size>
-            </property>
-            <item>
-             <property name="text">
-              <string>请选择Sheet</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="comboBox_get_col">
-            <property name="minimumSize">
-             <size>
-              <width>71</width>
-              <height>31</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>71</width>
-              <height>31</height>
-             </size>
-            </property>
-            <item>
-             <property name="text">
-              <string>列</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="comboBox_get_row">
-            <property name="minimumSize">
-             <size>
-              <width>71</width>
-              <height>31</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>71</width>
-              <height>31</height>
-             </size>
-            </property>
-            <item>
-             <property name="text">
-              <string>行</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
-        </widget>
        </widget>
-      </widget>
-     </item>
-     <item>
-      <layout class="QGridLayout" name="gridLayout_4">
-       <item row="1" column="0">
-        <widget class="QCheckBox" name="checkBox_advance">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>91</width>
-           <height>27</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>91</width>
-           <height>27</height>
-          </size>
-         </property>
+      </item>
+      <item row="11" column="1">
+       <widget class="QPushButton" name="btn_re_view_excel">
+        <property name="minimumSize">
+         <size>
+          <width>80</width>
+          <height>29</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>80</width>
+          <height>29</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>刷新</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>77</width>
+          <height>18</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="7" column="0" rowspan="7">
+       <widget class="QListWidget" name="listWidget_excel_list">
+        <property name="minimumSize">
+         <size>
+          <width>373</width>
+          <height>140</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>373</width>
+          <height>140</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="whatsThis">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <item>
          <property name="text">
-          <string>高级选项</string>
+          <string>新建项目</string>
          </property>
-         <property name="checked">
-          <bool>false</bool>
+        </item>
+        <item>
+         <property name="text">
+          <string>新建项目</string>
          </property>
-        </widget>
-       </item>
+        </item>
+        <item>
+         <property name="text">
+          <string>新建项目</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>新建项目</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>新建项目</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>新建项目</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>新建项目</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>新建项目</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>新建项目</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>新建项目</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <spacer name="verticalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>28</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_excel_info">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>200</y>
+       <width>461</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Excel 读取内容设置</string>
+     </property>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>30</y>
+        <width>363</width>
+        <height>96</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="label_2">
+        <widget class="QComboBox" name="comboBox_excel_sheet">
          <property name="minimumSize">
           <size>
-           <width>388</width>
-           <height>21</height>
+           <width>361</width>
+           <height>31</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>428</width>
-           <height>21</height>
+           <width>361</width>
+           <height>31</height>
           </size>
          </property>
-         <property name="text">
-          <string>请到需要录成绩的页面并选择Excel后再点击开始按钮</string>
-         </property>
+         <item>
+          <property name="text">
+           <string>请选择Sheet</string>
+          </property>
+         </item>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="btn_start">
+       <item row="1" column="0" colspan="2">
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>358</width>
+           <height>18</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="0">
+        <widget class="QComboBox" name="comboBox_get_row">
          <property name="minimumSize">
           <size>
-           <width>231</width>
-           <height>29</height>
+           <width>161</width>
+           <height>31</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>231</width>
-           <height>29</height>
+           <width>161</width>
+           <height>31</height>
           </size>
          </property>
-         <property name="text">
-          <string>开始录入</string>
+         <item>
+          <property name="text">
+           <string>行</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QComboBox" name="comboBox_get_col">
+         <property name="minimumSize">
+          <size>
+           <width>161</width>
+           <height>31</height>
+          </size>
          </property>
+         <property name="maximumSize">
+          <size>
+           <width>161</width>
+           <height>31</height>
+          </size>
+         </property>
+         <item>
+          <property name="text">
+           <string>列</string>
+          </property>
+         </item>
         </widget>
        </item>
       </layout>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_advance">
-       <property name="minimumSize">
-        <size>
-         <width>511</width>
-         <height>181</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>511</width>
-         <height>181</height>
-        </size>
-       </property>
-       <property name="mouseTracking">
-        <bool>false</bool>
-       </property>
-       <property name="title">
-        <string>高级</string>
-       </property>
-       <widget class="QWidget" name="gridLayoutWidget_2">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>50</y>
-          <width>481</width>
-          <height>121</height>
-         </rect>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <item row="4" column="0" colspan="3">
-          <widget class="QGroupBox" name="groupBox_page_control">
-           <property name="minimumSize">
-            <size>
-             <width>479</width>
-             <height>84</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>479</width>
-             <height>84</height>
-            </size>
-           </property>
-           <property name="title">
-            <string>选择需要控制的浏览器页面,只有该页面会被程序控制</string>
-           </property>
-           <widget class="QWidget" name="layoutWidget">
-            <property name="geometry">
-             <rect>
-              <x>30</x>
-              <y>40</y>
-              <width>411</width>
-              <height>31</height>
-             </rect>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
-             <item>
-              <widget class="QComboBox" name="comboBox_get_page">
-               <property name="minimumSize">
-                <size>
-                 <width>255</width>
-                 <height>29</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>255</width>
-                 <height>29</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="btn_page_control">
-               <property name="minimumSize">
-                <size>
-                 <width>71</width>
-                 <height>29</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>71</width>
-                 <height>29</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>选择</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="btn_re_page_view">
-               <property name="minimumSize">
-                <size>
-                 <width>71</width>
-                 <height>29</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>71</width>
-                 <height>29</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>刷新显示</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>88</width>
-             <height>26</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="0" column="0">
-          <widget class="QPushButton" name="btn_click_checkbox">
-           <property name="minimumSize">
-            <size>
-             <width>221</width>
-             <height>29</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>221</width>
-             <height>29</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>点击页面中的所有CheckBox</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QPushButton" name="btn_about">
-           <property name="minimumSize">
-            <size>
-             <width>111</width>
-             <height>29</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>111</width>
-             <height>29</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>联系</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </widget>
-     </item>
-    </layout>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="label_top_info">
+    <property name="geometry">
+     <rect>
+      <x>11</x>
+      <y>11</y>
+      <width>511</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>511</width>
+      <height>21</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>511</width>
+      <height>21</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>软件关闭后浏览器也会同关闭，如需要浏览器请不要关闭此程序</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_start">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>440</y>
+      <width>461</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>231</width>
+      <height>29</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>开始录入</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>400</y>
+      <width>399</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>388</width>
+      <height>21</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>428</width>
+      <height>21</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>请到需要录成绩的页面再点击开始按钮</string>
+    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

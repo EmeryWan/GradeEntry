@@ -1,3 +1,4 @@
+import copy
 import time
 
 from PyQt5.QtCore import QThread, pyqtSignal
@@ -20,13 +21,13 @@ class ExcelReadThread(QThread):
 
     def __init__(self, parent=None, excel=None, row=None, col=None):
         super(ExcelReadThread, self).__init__(parent)
-        self.working = True
+        # self.working = True
         self.excel = excel
         self.row = row
         self.col = col
 
     def __del__(self):
-        self.working = False
+        # self.working = False
         self.wait()
 
     def set_excel(self, excel):
@@ -43,9 +44,9 @@ class ExcelReadThread(QThread):
         获得列表　返回信号
         :return:
         """
-        if self.working:
-            info = self.excel.grade_info(row_in=self.row, col_in=self.col)
-            self.grade_single_out.emit(info)
+        # if self.working:
+        info = self.excel.grade_info(row_in=self.row, col_in=self.col)
+        self.grade_single_out.emit(info)
 
 
 class BrowserFromEntryThread(QThread):
@@ -57,12 +58,12 @@ class BrowserFromEntryThread(QThread):
 
     def __init__(self, parent=None, browser=None, grade_list=None):
         super(BrowserFromEntryThread, self).__init__(parent)
-        self.working = True
+        # self.working = True
         self.browser = browser
         self.grade_list = grade_list
 
     def __del__(self):
-        self.working = False
+        # self.working = False
         self.wait()
 
     def set_browser(self, browser):
@@ -75,26 +76,29 @@ class BrowserFromEntryThread(QThread):
         """
         执行填充动作
         """
-        if self.working:
+        # if self.working:
+        try:
             self.browser.start_entry_data(grade_list=self.grade_list)
+        except:
+            print("run diancuo")
 
 
 class CheckboxThread(QThread):
     def __init__(self, parent=None, browser=None):
         super(CheckboxThread, self).__init__(parent)
-        self.working = True
+        # self.working = True
         self.browser = browser
 
     def __del__(self):
-        self.working = False
+        # self.working = False
         self.wait()
 
     def set_browser(self, browser):
         self.browser = browser
 
     def run(self):
-        if self.working:
-            self.browser.click_all_checkbox()
+        # if self.working:
+        self.browser.click_all_checkbox()
 
 
 class Window(QMainWindow):
@@ -128,11 +132,11 @@ class Window(QMainWindow):
         self.browser_entry_thread = BrowserFromEntryThread(browser=self.browser_operate)
         self.check_box_thread = CheckboxThread(browser=self.browser_operate)
 
-    def get_grade_info_thread(self, grade_list):
+    def get_grade_info_thread(self, g_list):
         """
         从线程中获得数据
         """
-        self.grade_list = grade_list
+        self.grade_list = g_list
 
     def set_advance_visible(self):
         """
@@ -150,10 +154,11 @@ class Window(QMainWindow):
         获得所有的excel，并填充到窗体列表
         """
         excel_list = self.excel_operate.get_all_excel()
-        if len(excel_list) != 0:
+        if excel_list is not None:
             self.ui.listWidget_excel_list.clear()
             self.ui.listWidget_excel_list.addItems(excel_list)
         else:
+            # QMessage
             pass
 
     def fill_sheet_comboBox(self):
@@ -161,15 +166,19 @@ class Window(QMainWindow):
         获得选定excel的sheet信息，并填充到窗体
         :return:
         """
-        e_name = self.ui.listWidget_excel_list.currentItem()
-        self.excel_operate.excel_name = str(e_name.text())
-        self.excel_operate.get_all_sheets()
-        sheet_list = self.excel_operate.sheet_list
-        if len(sheet_list) != 0:
-            self.ui.comboBox_excel_sheet.clear()
-            self.ui.comboBox_excel_sheet.addItem('请选择Sheet')
-            self.ui.comboBox_excel_sheet.addItems(sheet_list)
-        else:
+        try:
+            e_name = self.ui.listWidget_excel_list.currentItem()
+            self.excel_operate.excel_name = str(e_name.text())
+            self.excel_operate.get_all_sheets()
+            sheet_list = self.excel_operate.sheet_list
+            if sheet_list is not None:
+                self.ui.comboBox_excel_sheet.clear()
+                self.ui.comboBox_excel_sheet.addItem('请选择Sheet')
+                self.ui.comboBox_excel_sheet.addItems(sheet_list)
+            else:
+                # QMessage
+                pass
+        except:
             pass
 
     def fill_row_col_info(self):
@@ -199,6 +208,7 @@ class Window(QMainWindow):
                     for j in range(col):
                         self.ui.comboBox_get_col.addItem(colnum_to_colname(str(j + 1)))
                 else:
+                    # QMessageBox
                     pass
         except:
             pass
@@ -208,7 +218,16 @@ class Window(QMainWindow):
         print(self.grade_list)
         if len(self.grade_list) != 0:
             self.grade_list.clear()
-        self.grade_list = self.excel_operate.grade_info(row, col)
+        # 无数据 []
+        # 有数据 [1, 2, 3 ...]
+        # 返回None 表示输入的行列超出了
+        g_list = self.excel_operate.grade_info(row, col)
+        if g_list is not None:
+            # self.grade_list.copy()
+            self.grade_list = copy.deepcopy(g_list)
+        else:
+            # QMessageBox
+            pass
 
     def start_entry(self):
         """
@@ -216,16 +235,20 @@ class Window(QMainWindow):
         开始后将其他控件设置为不可用
         :return:
         """
-        row = str(int(self.ui.comboBox_get_row.currentText()) - 1)
-        col = str(int(colname_to_colnum(self.ui.comboBox_get_col.currentText())) - 1)
-        print("start entry")
-        print(row, " ", col)
-        self.ui.btn_start.setEnabled(False)
-        self.read_excel(row, col)
-        print("starrt")
-        print(self.grade_list)
-        self.start_browser_entry_thread()
-        self.ui.btn_start.setEnabled(True)
+        try:
+            row = str(int(self.ui.comboBox_get_row.currentText()) - 1)
+            col = str(int(colname_to_colnum(self.ui.comboBox_get_col.currentText())) - 1)
+            print("start entry")
+            print(row, " ", col)
+            self.ui.btn_start.setEnabled(False)
+            # 读取数据放入 self.grade_list
+            self.read_excel(row, col)
+            print("starrt")
+            print(self.grade_list)
+            self.start_browser_entry_thread()
+            self.ui.btn_start.setEnabled(True)
+        except:
+            pass
         # 开始线程
         # self.start_excel_info_thread(row, col)
         # self.start_browser_entry_thread()
@@ -253,21 +276,28 @@ class Window(QMainWindow):
         else:
             logger.error('没有获取到成绩信息')
 
-    def start_check_box_thread(self):
-        self.check_box_thread.start()
-
     # -----------------------------------------------------------------------------
 
     """
     高级选项
     """
 
+    def start_check_box_thread(self):
+        try:
+            self.check_box_thread.start()
+        except:
+            print("点点点")
+
     def check_box(self):
         """
         填充页面的checkbox
         :return:
         """
-        self.start_check_box_thread()
+        try:
+            self.start_check_box_thread()
+        except:
+            # QMessageBox
+            pass
 
     def change_page_control(self):
         pass

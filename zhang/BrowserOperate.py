@@ -59,9 +59,12 @@ class Browser:
 
     def __do_input(self, grade_list):
 
+        # 处理输入数据长度与实际不符 从1开始
+        stu_num = len(grade_list)
+
         if len(self.__input_elements) != 0:
             for index, ip in enumerate(self.__input_elements):
-                # 处理第一次可能输入了数据，临时保存过需要更改
+                # 处理第一次可能输入了数据，临时保存过需要更改 index 从0开始
                 try:
                     value = ip.get_attribute('value')
                     if value == '':
@@ -72,7 +75,8 @@ class Browser:
                 if value is not None:  # 原始有数据 显示取消资格或重新录入新成绩
                     if is_num(str(ip.get_attribute('value'))):
                         ip.clear()
-                        ip.send_keys(grade_list[index])
+                        if index < stu_num:
+                            ip.send_keys(grade_list[index])
                     else:
                         # 中文字 取消资格
                         pass
@@ -87,17 +91,19 @@ class Browser:
 
     def click_all_checkbox(self):
         trs = self.__find_table()
-        # 找到一行中的checkbox
-        for tr in trs:
-            try:
-                input_in_tr = tr.find_elements_by_tag_name('input')
-                for ip in input_in_tr:
-                    if ip.get_attribute('type') == 'checkbox':
-                        ip.click()
-                    else:
-                        pass
-            except:
-                pass
+
+        if trs is not None:
+            # 找到一行中的checkbox
+            for tr in trs:
+                try:
+                    input_in_tr = tr.find_elements_by_tag_name('input')
+                    for ip in input_in_tr:
+                        if ip.get_attribute('type') == 'checkbox':
+                            ip.click()
+                        else:
+                            pass
+                except:
+                    pass
         # logger.info('本页面的checkbox填充完毕')
 
     def list_browser_window(self):

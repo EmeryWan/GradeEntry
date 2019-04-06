@@ -12,7 +12,7 @@ class Logger:
     def __init__(self, logger_name='log_default_name'):
 
         self.__log_file_dir = os.path.join(os.getcwd(), "..", "config", "logs_file")
-        print(self.__log_file_dir)
+        # print(self.__log_file_dir)
 
         if not os.path.exists(self.__log_file_dir):
             os.makedirs(self.__log_file_dir)
@@ -22,7 +22,7 @@ class Logger:
         self.log_file_name = time.strftime("%Y-%m-%d--%H-%M-%S", time.localtime())
         # self.log_file_path = self.__log_file_dir + "//" + self.log_file_name + r'.log'
         self.log_file_path = os.path.join(self.__log_file_dir, (self.log_file_name + r'.log'))
-        print(self.log_file_path)
+        # print(self.log_file_path)
         self.file_output_level = 'DEBUG'
         self.console_output_level = 'DEBUG'
         self.formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
