@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>501</width>
-    <height>651</height>
+    <width>498</width>
+    <height>646</height>
    </rect>
   </property>
   <property name="font">
@@ -24,9 +24,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>530</y>
+      <y>510</y>
       <width>481</width>
-      <height>81</height>
+      <height>101</height>
      </rect>
     </property>
     <property name="mouseTracking">
@@ -35,23 +35,17 @@
     <property name="title">
      <string>高级</string>
     </property>
-    <widget class="QPushButton" name="btn_click_checkbox">
+    <widget class="QPushButton" name="pushButton">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>451</width>
-       <height>41</height>
+       <x>90</x>
+       <y>50</y>
+       <width>241</width>
+       <height>21</height>
       </rect>
      </property>
-     <property name="minimumSize">
-      <size>
-       <width>221</width>
-       <height>29</height>
-      </size>
-     </property>
      <property name="text">
-      <string>点击页面中的所有CheckBox</string>
+      <string>再次打开浏览器</string>
      </property>
     </widget>
    </widget>
@@ -59,7 +53,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>500</y>
+      <y>480</y>
       <width>91</width>
       <height>27</height>
      </rect>
@@ -93,9 +87,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>40</y>
+      <y>10</y>
       <width>481</width>
-      <height>351</height>
+      <height>331</height>
      </rect>
     </property>
     <property name="title">
@@ -266,7 +260,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>200</y>
+       <y>190</y>
        <width>461</width>
        <height>141</height>
       </rect>
@@ -280,7 +274,7 @@
         <x>50</x>
         <y>30</y>
         <width>363</width>
-        <height>96</height>
+        <height>97</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
@@ -306,29 +300,23 @@
         </widget>
        </item>
        <item row="1" column="0" colspan="2">
-        <spacer name="verticalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>请选择第一个成绩所在的行列</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>358</width>
-           <height>18</height>
-          </size>
-         </property>
-        </spacer>
+        </widget>
        </item>
        <item row="2" column="0">
         <widget class="QComboBox" name="comboBox_get_row">
          <property name="minimumSize">
           <size>
-           <width>161</width>
+           <width>171</width>
            <height>31</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>161</width>
+           <width>171</width>
            <height>31</height>
           </size>
          </property>
@@ -343,13 +331,13 @@
         <widget class="QComboBox" name="comboBox_get_col">
          <property name="minimumSize">
           <size>
-           <width>161</width>
+           <width>171</width>
            <height>31</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>161</width>
+           <width>171</width>
            <height>31</height>
           </size>
          </property>
@@ -364,51 +352,25 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QLabel" name="label_top_info">
-    <property name="geometry">
-     <rect>
-      <x>11</x>
-      <y>11</y>
-      <width>511</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>511</width>
-      <height>21</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>511</width>
-      <height>21</height>
-     </size>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>软件关闭后浏览器也会同关闭，如需要浏览器请不要关闭此程序</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btn_start">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>440</y>
-      <width>461</width>
+      <x>40</x>
+      <y>380</y>
+      <width>411</width>
       <height>41</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
-      <width>231</width>
-      <height>29</height>
+      <width>411</width>
+      <height>41</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>411</width>
+      <height>41</height>
      </size>
     </property>
     <property name="text">
@@ -419,25 +381,50 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>400</y>
+      <y>350</y>
       <width>399</width>
       <height>21</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
-      <width>388</width>
+      <width>399</width>
       <height>21</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>428</width>
+      <width>399</width>
       <height>21</height>
      </size>
     </property>
     <property name="text">
      <string>请到需要录成绩的页面再点击开始按钮</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_click_checkbox">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>430</y>
+      <width>411</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>411</width>
+      <height>41</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>411</width>
+      <height>41</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>点击页面中的所有CheckBox</string>
     </property>
    </widget>
   </widget>
