@@ -9,9 +9,9 @@ class Excel:
     def __init__(self):
         self.__excel_name = None
         self.__sheet_lists = None
-        # sheetname -> {row:, col:}
+        # sheetName -> {row:, col:}
         self.__sheet_name_and_row_col = {}
-        # sheetname -> [][]
+        # sheetName -> [][]
         self.__sheet_name_and_info = {}
 
     @property
@@ -53,101 +53,111 @@ class ExcelOperator:
         self.excel_name_and_object = {}
 
     def get_excel_object_info(self, excel_name):
-        return self.excel_name_and_object[excel_name]
+        try:
+            if self.excel_name_and_object[excel_name] is not None:
+                return self.excel_name_and_object[excel_name]
+            else:
+                return None
+        except:
+            return None
 
     def get_all_excel_name_lists(self):
-        """
-        将目录下的文件显示到框中
-        """
         try:
             files = os.listdir(ExcelOperator.__excel_files_path)
 
             if len(self.excel_file_list) != 0:
                 self.excel_file_list.clear()
 
+            # 排除不是excel文件  需要排除临时文件  .~20181-4.xlsx
             for file in files:
-                # 需要排除临时文件  .~20181-4.xlsx
                 if not file.startswith('.') and not file.startswith('~') and not file.startswith(
                         '~$') and not file.startswith('^'):
                     if file.endswith('xlsx') or file.endswith('xls'):
                         self.excel_file_list.append(file)
             return self.excel_file_list
         except:
-            print('无目标文件夹')
             return None
 
     def get_all_info(self, open_excel_name):
-        # 初始化全部信息 （清空）
-
+        print("get_all_info")
+        print(open_excel_name)
         excel_object = Excel()
         excel_object.excel_name = open_excel_name
 
-        this_excel = xlrd.open_workbook(os.path.join(ExcelOperator.__excel_files_path, open_excel_name))
-        # 获得所有sheet
-        # ['平时成绩', 'Sheet2', '考核成绩']
-        sheets = this_excel.sheet_names()
-        excel_object.sheet_lists = sheets
+        try:
+            this_excel = xlrd.open_workbook(os.path.join(ExcelOperator.__excel_files_path, open_excel_name))
+        except:
+            print("文件被占用")
+            this_excel = None
+        print(this_excel)
+        print("333--")
+        if this_excel is not None:
+            # ['平时成绩', 'Sheet2', '考核成绩']
+            sheets = this_excel.sheet_names()
+            excel_object.sheet_lists = sheets
+            print(sheets)
 
-        for sheet in sheets:
-            this_sheet = this_excel.sheet_by_name(sheet)
+            # 循环获得全部sheet中的信息
+            for sheet in sheets:
+                this_sheet = this_excel.sheet_by_name(sheet)
 
-            row = this_sheet.nrows
-            col = this_sheet.ncols
-            row_col_info = {
-                'row': row,
-                'col': col
-            }
-            # excel_object.sheet_name_and_row_col[sheet] = row_col_info
-            excel_object.set_sheet_name_and_row_col(sheet, row_col_info)
+                # 获得行列信息
+                row = int(this_sheet.nrows)
+                col = int(this_sheet.ncols)
+                row_col_info = {
+                    'row': row,
+                    'col': col
+                }
+                # print(row_col_info)
+                excel_object.set_sheet_name_and_row_col(sheet, row_col_info)
 
-            info = []
-            for r in range(row):
-                row_info = []
-                for c in range(col):
-                    row_info.append(this_sheet.cell_value(r, c))
-                info.append(row_info)
-            # excel_object.sheet_name_and_info[sheet] = info
-            excel_object.set_sheet_name_and_info(sheet, info)
+                # 获得单元格信息
+                excel_info = []
+                for r in range(row):
+                    row_info = []
+                    for c in range(col):
+                        # print('r:', r, ' c:', c)
+                        row_info.append(this_sheet.cell_value(r, c))
+                    # print(row_info)
+                    excel_info.append(row_info)
 
-        # 循环获得全部sheet中的信息
-        # 获得行列信息
-        # 获得单元格信息
-        self.excel_name_and_object[open_excel_name] = excel_object
+                excel_object.set_sheet_name_and_info(sheet, excel_info)
+
+            self.excel_name_and_object[open_excel_name] = excel_object
 
     def get_grade_info(self, excel_name_in, sheet_name_in, row_in, col_in):
-        this_excel = self.excel_name_and_object.get(excel_name_in)
-        this_sheet_info = this_excel.sheet_name_and_info.get(sheet_name_in)
-        print(this_sheet_info)
-        row_total = this_excel.sheet_row_col.get('row')
-        print(row_total)
-        col_total = this_excel.sheet_row_col.get('col')
-        print(col_total)
+
+        row_in = int(row_in)
+        col_in = int(col_in)
+
+        this_excel_object = self.excel_name_and_object.get(excel_name_in)
+        this_sheet_info = this_excel_object.get_sheet_info(sheet_name_in)
+        total_row_col_map = this_excel_object.get_sheet_row_col(sheet_name_in)
+        row_total = int(total_row_col_map['row'])
+        col_total = int(total_row_col_map['col'])
+
         # 读取信息
         grade = []
+
         if row_in <= row_total and col_in <= col_total:
-            for r in range(int(row_in), int(row_total)):
+            for r in range(row_in, row_total):
                 try:
                     # 注意类型转换问题
                     temp = this_sheet_info[r][col_in]
-                    print(temp)
                 except ValueError:
                     temp = 0
                 except:
                     temp = 0
                 grade.append(temp)
+            print(grade)
+            print(len(grade))
             return grade
-        return None
+        else:
+            return []
 
     def get_grade_info_with_name(self, row_in, col_in):
         pass
 
-    # @property
-    # def excel_name_and_object(self):
-    #     return self.excel_name_and_object
-    #
-    # @excel_name_and_object.setter
-    # def excel_name_and_object(self, value):
-    #     self._excel_name_and_object = value
 
     # def get_all_sheets(self):
     #     try:
@@ -187,55 +197,7 @@ class ExcelOperator:
     #         return grade
     #     return None
     #
-    # @property
-    # def excel_name(self):
-    #     return self.__excel_name
-    #
-    # @excel_name.setter
-    # def excel_name(self, excel_name):
-    #     self.__excel_name = excel_name
-    #
-    # @property
-    # def excel_selected(self):
-    #     return self.__excel_selected
-    #
-    # @property
-    # def sheet_list(self):
-    #     return self.__sheet_list
-    #
-    # @property
-    # def sheet_name(self):
-    #     return self.__sheet_name
-    #
-    # @sheet_name.setter
-    # def sheet_name(self, sheet_name):
-    #     self.__sheet_name = sheet_name
-    #
-    # @property
-    # def sheet_selected(self):
-    #     return self.__sheet_selected
 
-
-# if __name__ == '__main__':
-#     excel = Excel()
-#
-#     # 获得所有文件
-#     excel_list = excel.get_all_excel()
-#     # ['20181-4.xlsx']
-#     print(excel_list)
-#
-#     # 获得一个文件的sheet
-#     excel.excel_name = '20181-4.xlsx'
-#     sheet_list = excel.get_all_sheets()
-#     # ['平时成绩', 'Sheet2', '考核成绩']
-#     print(sheet_list)
-#
-#     # 设置sheet信息
-#     excel.sheet_name = '考核成绩'
-#
-#     # 获得一个sheet的行列
-#     r, c = excel.row_col_length()
-#     print(r, " ", c)
 
 if __name__ == '__main__':
     eo = ExcelOperator()

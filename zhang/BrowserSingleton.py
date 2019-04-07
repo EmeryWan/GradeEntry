@@ -19,7 +19,7 @@ class BrowserSingleton:
             with BrowserSingleton._instance_lock:
                 if BrowserSingleton.__browser_instance is None:
                     try:
-                        driver_path = r"..//config//chromedriver"
+                        driver_path = r"..//config//chromedriver.exe"
                         option = webdriver.ChromeOptions()
                         option.add_argument('disable-infobars')
                         BrowserSingleton.__browser_instance = webdriver.Chrome(executable_path=driver_path,

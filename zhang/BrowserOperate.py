@@ -9,21 +9,23 @@ class BrowserOperate:
     def __init__(self):
         self.open_website()
 
-    def open_website(self):
-        BrowserSingleton.instance().get(SettingsInfo.WEBSITE)
-        time.sleep(0.5)
-        self.__login_input()
+    @classmethod
+    def open_website(cls):
+        try:
+            BrowserSingleton.instance().get(SettingsInfo.WEBSITE)
+            time.sleep(0.2)
+            cls.__login_input()
+        except:
+            BrowserSingleton.instance()
 
-    def __login_input(self):
+    @staticmethod
+    def __login_input():
         try:
             login_form = BrowserSingleton.instance().find_element_by_id('login-action')
         except:
             login_form = None
 
         if login_form is not None:
-            print("login")
-            print(SettingsInfo.USER_ID)
-            print(SettingsInfo.PASSWORD)
             if SettingsInfo.USER_ID is not None:
                 login_form.find_element_by_id('inputUser').send_keys(SettingsInfo.USER_ID)
             if SettingsInfo.PASSWORD is not None:
@@ -32,10 +34,11 @@ class BrowserOperate:
     @classmethod
     def start_entry_data(cls, grade_list):
 
+        # input(text) 的集合
         text_input_elements_list = []
-        trs = cls.__find_table()
 
         # 查找本页面中的input(text)
+        trs = cls.__find_table()
         if trs is not None:
             # 获得不是hidden的input
             for tr in trs:
@@ -46,14 +49,13 @@ class BrowserOperate:
                             text_input_elements_list.append(ip)
                 except:
                     pass  # 第一行没有可输入的input
-            # return text_input_elements_list
         else:
             print("error !没有找到input")
-            # return []
+            return False  # QMessage 请到指定页面
 
-        # 输入
         # 处理输入数据长度与实际不符 从1开始
-        stu_num = len(grade_list)
+        table_stu_len = len(grade_list)
+        print(table_stu_len)
 
         if len(text_input_elements_list) != 0:
             for index, ip in enumerate(text_input_elements_list):
@@ -65,16 +67,28 @@ class BrowserOperate:
                 except:
                     value = None
 
+                input_value = grade_list[index]
+                if is_num(input_value):
+                    input_value = str(int(input_value))
+
                 if value is not None:  # 原始有数据 显示取消资格或重新录入新成绩
                     if is_num(str(ip.get_attribute('value'))):
                         ip.clear()
-                        if index < stu_num:
-                            ip.send_keys(grade_list[index])
+                        if index < table_stu_len:
+                            try:
+                                ip.send_keys(input_value)
+                            except:
+                                pass
                     else:
-                        # 中文字 取消资格
-                        pass
+                        pass  # 上面显示中文字 取消资格等 忽略
                 else:
-                    ip.send_keys(grade_list[index])
+                    if index < table_stu_len:
+                        try:
+                            ip.send_keys(input_value)
+                        except:
+                            pass
+
+        return True
 
     @classmethod
     def click_all_checkbox(cls):
@@ -92,7 +106,9 @@ class BrowserOperate:
                             pass
                 except:
                     pass
-        # logger.info('本页面的checkbox填充完毕')
+            return True
+        else:
+            return False  # QMessage 请到指定页面
 
     @staticmethod
     def __find_table():
@@ -104,53 +120,6 @@ class BrowserOperate:
         except:
             trs = None
         return trs
-
-    # def __find_input(self):
-    #
-    #     text_input_elements_list = []
-    #     trs = self.__find_table()
-    #
-    #     if trs is not None:
-    #         # 获得不是hidden的input
-    #         for tr in trs:
-    #             try:
-    #                 inputs_in_tr = tr.find_elements_by_tag_name('input')
-    #                 for ip in inputs_in_tr:
-    #                     if ip.get_attribute('type') == 'text':
-    #                         text_input_elements_list.append(ip)
-    #             except:
-    #                 pass  # 第一行没有可输入的input
-    #         return text_input_elements_list
-    #     else:
-    #         print("error !没有找到input")
-    #         return []
-    #
-    # def __do_input(self, grade_list):
-    #     text_input_elements_list = self.__find_input()
-    #
-    #     # 处理输入数据长度与实际不符 从1开始
-    #     stu_num = len(grade_list)
-    #
-    #     if len(text_input_elements_list) != 0:
-    #         for index, ip in enumerate(text_input_elements_list):
-    #             # 处理第一次可能输入了数据，临时保存过需要更改 index 从0开始
-    #             try:
-    #                 value = ip.get_attribute('value')
-    #                 if value == '':
-    #                     value = None
-    #             except:
-    #                 value = None
-    #
-    #             if value is not None:  # 原始有数据 显示取消资格或重新录入新成绩
-    #                 if is_num(str(ip.get_attribute('value'))):
-    #                     ip.clear()
-    #                     if index < stu_num:
-    #                         ip.send_keys(grade_list[index])
-    #                 else:
-    #                     # 中文字 取消资格
-    #                     pass
-    #             else:
-    #                 ip.send_keys(grade_list[index])
 
 
 def is_num(num):
