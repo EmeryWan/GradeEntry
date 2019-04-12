@@ -74,6 +74,7 @@ class BrowserOperate:
                 if value is not None:  # 原始有数据 显示取消资格或重新录入新成绩
                     if is_num(str(ip.get_attribute('value'))):
                         ip.clear()
+                        # --------------------- 大于小于两种情况
                         if index < table_stu_len:
                             try:
                                 ip.send_keys(input_value)
@@ -87,7 +88,6 @@ class BrowserOperate:
                             ip.send_keys(input_value)
                         except:
                             pass
-
         return True
 
     @classmethod
@@ -120,6 +120,10 @@ class BrowserOperate:
         except:
             trs = None
         return trs
+
+    @staticmethod
+    def close_browser():
+        BrowserSingleton.close_instance()
 
 
 def is_num(num):

@@ -1,15 +1,8 @@
-import copy
-import time
-
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 
-from zhang import log
 from zhang.BrowserOperate import BrowserOperate
 from zhang.EntryWindow import Ui_MainWindow
-
-logger = log.logger
-logger.name = 'Main Window'
 
 
 class BrowserFromEntryThread(QThread):
@@ -24,10 +17,7 @@ class BrowserFromEntryThread(QThread):
         self.grade_list = grade_list
 
     def run(self):
-        try:
-            BrowserOperate.start_entry_data(grade_list=self.grade_list)
-        except:
-            print("run diancuo")
+        BrowserOperate.start_entry_data(grade_list=self.grade_list)
 
 
 class CheckboxThread(QThread):
@@ -75,9 +65,10 @@ class Window(QMainWindow):
         self.ui.btn_click_checkbox.clicked.connect(self.check_box)
 
     def closeEvent(self, event):
-        reply = QMessageBox.question(self, '退出', '确定要退出程序？', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        reply = QMessageBox.question(self, '退出', '关闭程序后浏览器也会关闭！', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
             # 关闭浏览器
+            BrowserOperate.close_browser()
             event.accept()
         else:
             event.ignore()
@@ -90,32 +81,35 @@ class Window(QMainWindow):
 
     def fill_excel_listWidget(self):
         excel_list = self.excel_operate.get_all_excel_name_lists()
-        if excel_list is not None:
-            if len(excel_list) == 0:
-                QMessageBox.warning(self, '没有文件', '该路径下没有读取到Excel文件\n请再确认一下', QMessageBox.Yes, QMessageBox.Yes)
-
+        if excel_list is None:
+            QMessageBox.question(self, '问题', '不能读取该路径下的文件', QMessageBox.Yes, QMessageBox.Yes)
+        elif len(excel_list) == 0:
+            QMessageBox.warning(self, '没有文件', '没有读取到Excel文件\n请再确认一下', QMessageBox.Yes, QMessageBox.Yes)
+        else:
             self.ui.listWidget_excel_list.clear()
             self.ui.listWidget_excel_list.addItems(excel_list)
-        else:
-            QMessageBox.question(self, '问题', '不能读取该路径下的文件', QMessageBox.Yes, QMessageBox.Yes)
 
     def fill_sheet_comboBox(self):
 
         excel_item = self.ui.listWidget_excel_list.currentItem()
         excel_name = str(excel_item.text()).strip()
         print(excel_name)
-        self.excel_operate.get_all_info(excel_name)
-        print("@@111")
-        self.request_excel_object = self.excel_operate.get_excel_object_info(excel_name)
-        print('@@222')
-        sheet_list = self.request_excel_object.sheet_lists
-        if sheet_list is not None:
-            self.ui.comboBox_excel_sheet.clear()
-            self.ui.comboBox_excel_sheet.addItem('请选择Sheet')
-            self.ui.comboBox_excel_sheet.addItems(sheet_list)
+
+        sign = self.excel_operate.get_all_info(excel_name)
+        if sign:
+            print("@@111")
+            self.request_excel_object = self.excel_operate.get_excel_object_info(excel_name)
+            print('@@222')
+            sheet_list = self.request_excel_object.sheet_lists
+            if sheet_list is not None:
+                self.ui.comboBox_excel_sheet.clear()
+                self.ui.comboBox_excel_sheet.addItem('请选择Sheet')
+                self.ui.comboBox_excel_sheet.addItems(sheet_list)
+            else:
+                # QMessage
+                pass
         else:
-            # QMessage
-            pass
+            QMessageBox.warning(self, '无法读取', '文件被其他软件占用无法读取\n可能修改了未保存，请关闭Excel后再试一次', QMessageBox.Yes, QMessageBox.Yes)
 
     def fill_row_col_info(self):
         # 因为第一个是中文提示会报错　一定要try
@@ -144,7 +138,7 @@ class Window(QMainWindow):
                     for j in range(col):
                         self.ui.comboBox_get_col.addItem(colnum_to_colname(str(j + 1)))
                 else:
-                    # QMessageBox
+                    # QMessageBox 无法读取行列信息
                     pass
         except:
             pass
@@ -161,18 +155,22 @@ class Window(QMainWindow):
         return grade_info_list
 
     def start_entry(self):
+        # 添加一个判断是否在指定页面
+        # 添加提示信息
+        # 不要动鼠标等
 
         try:
             grade_info_list = self.get_grade_info_list()
             if len(grade_info_list) > 0:
                 self.start_browser_entry_thread(grade_info_list)
             else:
-                # QmessageBox
+                # QmessageBox 没有获得成绩信息
                 pass
         except:
             pass
 
     def check_box(self):
+        # 添加一个判断是否在指定页面
         try:
             self.start_check_box_thread()
         except:
@@ -180,14 +178,18 @@ class Window(QMainWindow):
             pass
 
     def start_browser_entry_thread(self, grade_info_list):
-        self.browser_entry_thread.set_grade_list(grade_info_list)
-        self.browser_entry_thread.start()
+        try:
+            self.browser_entry_thread.set_grade_list(grade_info_list)
+            self.browser_entry_thread.start()
+        except:
+            QMessageBox.warning(self, '错误', '程序内部填充成绩线程错误！', QMessageBox.Yes, QMessageBox.Yes)
 
     def start_check_box_thread(self):
         try:
             self.check_box_thread.start()
         except:
-            print("点点点")
+            QMessageBox.warning(self, '错误', '程序内部处理checkBox线程错误！', QMessageBox.Yes, QMessageBox.Yes)
+
 
 
 def colname_to_colnum(colname):

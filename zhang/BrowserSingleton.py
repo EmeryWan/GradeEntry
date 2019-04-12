@@ -26,5 +26,15 @@ class BrowserSingleton:
                                                                                options=option)
                     except:
                         logger.error('！！！无法获得浏览器')
-                        BrowserSingleton.__browser_instance = None
+                        # BrowserSingleton.__browser_instance = None
         return BrowserSingleton.__browser_instance
+
+    @classmethod
+    def close_instance(cls):
+        if BrowserSingleton.__browser_instance is not None:
+            with BrowserSingleton._instance_lock:
+                if BrowserSingleton.__browser_instance is not None:
+                    try:
+                        BrowserSingleton.instance().close()
+                    except:
+                        pass

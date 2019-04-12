@@ -124,6 +124,9 @@ class ExcelOperator:
                 excel_object.set_sheet_name_and_info(sheet, excel_info)
 
             self.excel_name_and_object[open_excel_name] = excel_object
+            return True
+        else:
+            return False
 
     def get_grade_info(self, excel_name_in, sheet_name_in, row_in, col_in):
 
