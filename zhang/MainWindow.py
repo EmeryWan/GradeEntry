@@ -3,7 +3,7 @@ import time
 
 import cv2
 from PyQt5.QtCore import QThread, pyqtSignal
-from PyQt5.QtGui import QImage, QPixmap
+from PyQt5.QtGui import QImage, QPixmap, QIcon
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QFileDialog, QPushButton
 
 from zhang.BrowserOperate import BrowserOperate
@@ -64,6 +64,10 @@ class Window(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.setFixedSize(self.width(), self.height())
+
+        # icon = os.path.join(os.getcwd(), "..", "config", "ecjtu_logo.png")
+        self.setWindowIcon(QIcon(r"./config/ecjtu_logo.png"))
+
         self.excel_operate = excel_operator
 
         self.window_init()
@@ -86,6 +90,7 @@ class Window(QMainWindow):
 
     def window_init(self):
         try:
+
             # 控件的可见性 可用性
             self.ui.groupBox_advance.setVisible(False)
             # self.ui.btn_start.setEnabled(False)

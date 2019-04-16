@@ -53,10 +53,10 @@ class Logger:
         """
         if not self.logger.handlers:
             # 控制台
-            console_handler = logging.StreamHandler()
-            console_handler.setFormatter(self.formatter)
-            console_handler.setLevel(self.console_output_level)
-            self.logger.addHandler(console_handler)
+            # console_handler = logging.StreamHandler()
+            # console_handler.setFormatter(self.formatter)
+            # console_handler.setLevel(self.console_output_level)
+            # self.logger.addHandler(console_handler)
 
             # 文件
             file_handler = logging.FileHandler(self.log_file_path, mode='w', encoding='utf-8')

@@ -17,7 +17,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>华东交通大学</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QCheckBox" name="checkBox_advance">
@@ -182,7 +182,7 @@
       </layout>
      </widget>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -528,18 +528,13 @@
      </property>
     </widget>
    </widget>
-   <zorder>groupBox_advance</zorder>
    <zorder>checkBox_advance</zorder>
    <zorder>groupBox_excel_file</zorder>
    <zorder>btn_start</zorder>
    <zorder>label_2</zorder>
    <zorder>btn_click_checkbox</zorder>
    <zorder>groupBox_about_info</zorder>
-   <zorder>btn_select_excel</zorder>
-   <zorder>btn_re_view_excel</zorder>
-   <zorder>gridLayoutWidget</zorder>
-   <zorder>btn_open_dir</zorder>
-   <zorder></zorder>
+   <zorder>groupBox_advance</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
