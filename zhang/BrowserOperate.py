@@ -1,6 +1,7 @@
 import time
 
 from zhang.BrowserSingleton import BrowserSingleton
+from zhang.Log import LoggerSingleton
 from zhang.Settings import SettingsInfo
 
 
@@ -16,7 +17,7 @@ class BrowserOperate:
             time.sleep(0.2)
             cls.__login_input()
         except:
-            BrowserSingleton.instance()
+            BrowserSingleton.instance(SettingsInfo.HOMEPAGE)
 
     @staticmethod
     def __login_input():
@@ -33,82 +34,106 @@ class BrowserOperate:
 
     @classmethod
     def start_entry_data(cls, grade_list):
+        try:
+            # input(text) 的集合
+            text_input_elements_list = []
 
-        # input(text) 的集合
-        text_input_elements_list = []
+            # 查找本页面中的input(text)
+            trs = cls.__find_table()
+            if trs is not None:
+                # 获得不是type为text的input(注意 在核查页面会同时存在 text/checkbox的input 注意定位方式)
+                for tr in trs:
+                    try:
+                        inputs_in_tr = tr.find_elements_by_tag_name('input')
+                        for ip in inputs_in_tr:
+                            if ip.get_attribute('type') == 'text':
+                                text_input_elements_list.append(ip)
+                    except:
+                        # 第一行没有可输入的input 直接pass
+                        pass
+            else:
+                LoggerSingleton.instance().warning('BrowserOperate->start_entry_data 未在指定页面')
+                # QMessage 请到指定页面
+                return False
 
-        # 查找本页面中的input(text)
-        trs = cls.__find_table()
-        if trs is not None:
-            # 获得不是hidden的input
-            for tr in trs:
-                try:
-                    inputs_in_tr = tr.find_elements_by_tag_name('input')
-                    for ip in inputs_in_tr:
-                        if ip.get_attribute('type') == 'text':
-                            text_input_elements_list.append(ip)
-                except:
-                    pass  # 第一行没有可输入的input
-        else:
-            print("error !没有找到input")
-            return False  # QMessage 请到指定页面
+            # 处理输入数据长度与实际不符
+            table_stu_len = len(grade_list)
 
-        # 处理输入数据长度与实际不符 从1开始
-        table_stu_len = len(grade_list)
-        print(table_stu_len)
-
-        if len(text_input_elements_list) != 0:
-            for index, ip in enumerate(text_input_elements_list):
-                # 处理第一次可能输入了数据，临时保存过需要更改 index 从0开始
-                try:
-                    value = ip.get_attribute('value')
-                    if value == '':
-                        value = None
-                except:
-                    value = None
-
-                input_value = grade_list[index]
-                if is_num(input_value):
-                    input_value = str(int(input_value))
-
-                if value is not None:  # 原始有数据 显示取消资格或重新录入新成绩
-                    if is_num(str(ip.get_attribute('value'))):
-                        ip.clear()
-                        # --------------------- 大于小于两种情况
-                        if index < table_stu_len:
-                            try:
-                                ip.send_keys(input_value)
-                            except:
-                                pass
-                    else:
-                        pass  # 上面显示中文字 取消资格等 忽略
-                else:
-                    if index < table_stu_len:
+            try:
+                if len(text_input_elements_list) != 0:
+                    for index, ip in enumerate(text_input_elements_list):
+                        # 处理第一次可能输入了数据，临时保存过需要更改 或显示取消资格等不可输入  index 从0开始
                         try:
-                            ip.send_keys(input_value)
+                            value = ip.get_attribute('value')
+                            if value == '':
+                                value = None
                         except:
-                            pass
-        return True
+                            LoggerSingleton.instance().error('BrowserOperate->start_entry_data 读取页面input问题')
+                            value = ''
+
+                        # 数组越界异常
+                        if index < table_stu_len:
+                            input_value = grade_list[index]
+                            if is_num(input_value):
+                                # excel 读取数字默认为float
+                                input_value = str(int(input_value))
+                        else:
+                            input_value = None
+
+                        if input_value is not None:
+                            # 原始有数据 或显示取消资格或重新录入新成绩
+                            if value is not None:
+                                if is_num(str(ip.get_attribute('value'))):
+                                    ip.clear()
+                                    if index < table_stu_len:
+                                        try:
+                                            ip.send_keys(input_value)
+                                        except:
+                                            LoggerSingleton.instance().error(
+                                                'BrowserOperate->start_entry_data 1 send_keys问题')
+                                            pass
+                                else:
+                                    # 上面显示中文字 取消资格等 直接pass
+                                    pass
+                            else:
+                                if index < table_stu_len:
+                                    try:
+                                        ip.send_keys(input_value)
+                                    except:
+                                        LoggerSingleton.instance().error(
+                                            'BrowserOperate->start_entry_data 2 send_keys问题')
+            except:
+                LoggerSingleton.instance().error('BrowserOperate->start_entry_data 数据处理与传值问题')
+            return True
+        except:
+            LoggerSingleton.instance().error('BrowserOperate->start_entry_data 内部错误')
 
     @classmethod
     def click_all_checkbox(cls):
-        trs = cls.__find_table()
+        try:
+            trs = cls.__find_table()
 
-        if trs is not None:
-            # 找到一行中的checkbox
-            for tr in trs:
-                try:
-                    input_in_tr = tr.find_elements_by_tag_name('input')
-                    for ip in input_in_tr:
-                        if ip.get_attribute('type') == 'checkbox':
-                            ip.click()
-                        else:
-                            pass
-                except:
-                    pass
-            return True
-        else:
-            return False  # QMessage 请到指定页面
+            if trs is not None:
+                # 找到一行中的checkbox
+                for tr in trs:
+                    try:
+                        input_in_tr = tr.find_elements_by_tag_name('input')
+                        for ip in input_in_tr:
+                            if ip.get_attribute('type') == 'checkbox':
+                                # 判断一下是否为click状态
+                                ip.click()
+                            else:
+                                pass
+                    except:
+                        LoggerSingleton.instance().error('BrowserOperate->click_all_checkbox 勾选checkbox问题')
+                        pass
+                return True
+            else:
+                LoggerSingleton.instance().warning('BrowserOperate->click_all_checkbox 未在指定页面')
+                # QMessage 请到指定页面
+                return False
+        except:
+            LoggerSingleton.instance().error('BrowserOperate->click_all_checkbox 内部错误')
 
     @staticmethod
     def __find_table():
@@ -118,6 +143,7 @@ class BrowserOperate:
             table = parent_div.find_element_by_tag_name('table')
             trs = table.find_elements_by_tag_name('tr')
         except:
+            LoggerSingleton.instance().error('BrowserOperate->__find_table 内部错误 不在指定页面可能触发')
             trs = None
         return trs
 

@@ -1,4 +1,5 @@
 import sys
+import time
 
 from PyQt5.QtWidgets import QApplication
 
@@ -8,14 +9,14 @@ from zhang.MainWindow import Window
 from zhang.Settings import SettingsInfo
 
 if __name__ == '__main__':
-    # 读取全部的配置文件
     setting = SettingsInfo()
 
-    # 一定要从main传入　会奔溃
-    excel_operator = ExcelOperator()
     browser_operator = BrowserOperate()
+    time.sleep(0.2)
+    excel_operator = ExcelOperator()
 
     app = QApplication(sys.argv)
     window = Window(excel_operator)
     window.show()
+
     sys.exit(app.exec_())
