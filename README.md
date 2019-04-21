@@ -6,7 +6,7 @@
 ## 使用方法
 ### 1. 配置
 #### 查看本机chrome浏览器的版本
-![](./imgs/F1.png)
+![](./imgs/f1.png)
 #### 查看对应的chromedriver版本
 #### 如 该例为 v72 所以下载 V2.45 的chromedriver
 |chromedriver版本 | 支持的Chrome版本|
@@ -38,7 +38,7 @@ https://npm.taobao.org/mirrors/chromedriver
 ![](./imgs/f2.png)
 ![](./imgs/f3.png)
 #### 放入config文件夹中
-![](./imgs/F4.png)
+![](./imgs/f4.png)
 
 双击exe文件即可开始运行
 
