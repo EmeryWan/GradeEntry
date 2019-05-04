@@ -2,15 +2,22 @@
 
 ## 软件包含
 ![](./imgs/1.png)
+### 下载
+[点击下载软件](https://github.com/EmeryWan/GradeEntry/releases)
 
 ## 使用方法
 ### 1. 配置
 #### 查看本机chrome浏览器的版本
 ![](./imgs/f1.png)
 #### 查看对应的chromedriver版本
+
+#### 下载地址
+https://npm.taobao.org/mirrors/chromedriver  
+https://blog.csdn.net/yoyocat915/article/details/80580066  
 #### 如 该例为 v72 所以下载 V2.45 的chromedriver
 |chromedriver版本 | 支持的Chrome版本|
 |:--:|:--:|
+|v2.46|v73-74|
 |v2.45|v70-72|
 |v2.44|v69-71|
 |v2.43|v69-71|
@@ -22,18 +29,7 @@
 |v2.37|v64-66|
 |v2.36|v63-65|
 |v2.35|v62-64|
-|v2.34|v61-63|
-|v2.33|v60-62|
-|v2.32|v59-61|
-|v2.31|v58-60|
-|v2.30|v58-60|
-|v2.29|v56-58|
-|v2.28|v55-57|
-|v2.27|v54-56|
-|v2.26|v53-55|
 
-#### 下载地址
-https://npm.taobao.org/mirrors/chromedriver
 #### V2.45的chromedriver
 ![](./imgs/f2.png)
 ![](./imgs/f3.png)
