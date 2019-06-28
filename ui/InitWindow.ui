@@ -6,21 +6,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>658</width>
-    <height>411</height>
+    <width>867</width>
+    <height>499</height>
    </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>658</width>
-    <height>411</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>658</width>
-    <height>411</height>
-   </size>
   </property>
   <property name="font">
    <font>
@@ -37,9 +25,9 @@
   <widget class="QLabel" name="init_label_info_1">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>70</y>
-     <width>411</width>
+     <x>310</x>
+     <y>90</y>
+     <width>431</width>
      <height>71</height>
     </rect>
    </property>
@@ -57,8 +45,8 @@
   <widget class="QLabel" name="init_label_info_2">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>20</y>
+     <x>340</x>
+     <y>40</y>
      <width>341</width>
      <height>41</height>
     </rect>
@@ -78,10 +66,10 @@
   <widget class="QLabel" name="tip_label">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>280</y>
-     <width>251</width>
-     <height>81</height>
+     <x>70</x>
+     <y>380</y>
+     <width>721</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -94,23 +82,11 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>540</x>
      <y>280</y>
-     <width>181</width>
+     <width>161</width>
      <height>51</height>
     </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>181</width>
-     <height>51</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>181</width>
-     <height>51</height>
-    </size>
    </property>
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
@@ -122,8 +98,8 @@
   <widget class="QLabel" name="logo_label">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>30</y>
+     <x>150</x>
+     <y>50</y>
      <width>81</width>
      <height>81</height>
     </rect>
@@ -132,11 +108,11 @@
     <string>logo</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="label_ecjtu_info">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>370</y>
+     <x>240</x>
+     <y>440</y>
      <width>361</width>
      <height>31</height>
     </rect>
@@ -145,86 +121,100 @@
     <string>华东交通大学 - 软件学院 - 和平研究院</string>
    </property>
   </widget>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QCheckBox" name="checkBox">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>200</y>
-     <width>437</width>
-     <height>53</height>
+     <x>180</x>
+     <y>280</y>
+     <width>151</width>
+     <height>41</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="1">
-     <spacer name="horizontalSpacer">
-      <property name="minimumSize">
-       <size>
-        <width>101</width>
-        <height>23</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>101</width>
-        <height>23</height>
-       </size>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>98</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="0" column="2">
-     <widget class="QPushButton" name="btn_select_excel">
-      <property name="minimumSize">
-       <size>
-        <width>161</width>
-        <height>51</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>161</width>
-        <height>51</height>
-       </size>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>选择文件夹</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QPushButton" name="btn_open_browser">
-      <property name="minimumSize">
-       <size>
-        <width>161</width>
-        <height>51</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>161</width>
-        <height>51</height>
-       </size>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>打开浏览器</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <property name="text">
+    <string>高级</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_change_path">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>340</y>
+     <width>481</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>点击更改 Chrome 浏览器的安装位置</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_curr_chrome_path">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>440</y>
+     <width>721</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>path_info</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_select_excel">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>200</y>
+     <width>161</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>161</width>
+     <height>51</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>161</width>
+     <height>51</height>
+    </size>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>选择文件夹</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_open_browser">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>200</y>
+     <width>161</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>161</width>
+     <height>51</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>161</width>
+     <height>51</height>
+    </size>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="text">
+    <string>打开浏览器</string>
+   </property>
   </widget>
  </widget>
  <resources/>

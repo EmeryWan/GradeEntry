@@ -1,8 +1,8 @@
-# [点我下载 exe](https://gitee.com/EmeryWan/GradeEntry/attach_files/247640/download)
+# [点我下载 exe](https://gitee.com/EmeryWan/GradeEntry/attach_files/248082/download)
 
 exe 双击即可运行  
 
-### [点我下载简略说明PDF](https://gitee.com/EmeryWan/GradeEntry/attach_files/247641/download)
+### [点我下载简略说明PDF](https://gitee.com/EmeryWan/GradeEntry/attach_files/248081/download)
 
 # 华东交通大学成绩录入辅助软件
 
@@ -10,18 +10,24 @@ exe 双击即可运行
 
 ## 源码运行
 
+pip install 太慢建议修改源镜像
+
 ```shell
 git clone https://gitee.com/EmeryWan/GradeEntry.git
-cd GradeEntry
+cd ./GradeEntry
 pip install -r requirements.txt
 python GreadEntryApplication.py
 ```
 
 ## 了解详情
-  
-[码云](https://gitee.com/EmeryWan/GradeEntry)
+
+[点我切换到开发分支](https://gitee.com/EmeryWan/GradeEntry/tree/dev-master/)  
+
+[github](https://github.com/EmeryWan/GradeEntry)
 
 # 使用教程
+
+### 问题请下拉到最后
 
 ## 软件包含
 
@@ -31,10 +37,17 @@ python GreadEntryApplication.py
 
 ## 初始界面
 
-![初始界面](./readme_imgs/2.png)
+![初始界面](./readme_imgs/2-1.png)
 
 - 点击打开浏览器 会打开一个程序可控制的浏览器窗口
 - 点击选择文件夹 程序会读取选择文件夹中的全部 Excel 文件
+
+![初始界面2](./readme_imgs/2-2.png)
+
+安装在默认位置可不配置，即：
+
+- 系统安装目录： C:\\Program Files (x86)\\Google\\Chrome\\Application
+- 当前用户安装目录： C:\\Users\\${UserName}\\AppData\\Local\\Google\\Chrome\\Application
 
 第一次运行该软件会进入下载驱动界面
 
@@ -76,3 +89,25 @@ python GreadEntryApplication.py
 五级制、两级制 同理
 
 ![等级制](./readme_imgs/12.png)
+
+--- 
+
+# 一些问题说明
+
+### 点击开始后没反应
+
+- 未在指定页面
+
+- 是否选择了 百分制 / 五级制 / 两级制  
+因某些原因，选择百分制不能判断是否在正确页面
+
+### 录入成绩选错
+
+- 可重新选择，再次录入即可
+- 程序会覆盖已有数据
+
+### 有部分成绩或复选框未操作到
+
+- 网络环境不好
+- 在自动操作时使用了鼠标  
+  因录入的几秒时间内会占用鼠标和键盘，这几秒请不要使用

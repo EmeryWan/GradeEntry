@@ -1,3 +1,4 @@
+import os
 import threading
 from selenium import webdriver
 
@@ -6,8 +7,6 @@ from util.Log import LoggerSingleton
 
 
 class BrowserSingleton:
-    __browser_exe_path = SettingsInfo.BROWSER_EXE_PATH
-    __driver_path = SettingsInfo.DRIVER_PATH
 
     _instance_lock = threading.Lock()
     __browser_instance = None
@@ -22,19 +21,25 @@ class BrowserSingleton:
             with BrowserSingleton._instance_lock:
                 if BrowserSingleton.__browser_instance is None:
 
+                    # 重构下移
+                    __browser_exe_path = SettingsInfo.BROWSER_EXE_PATH
+                    __driver_path = SettingsInfo.DRIVER_PATH
+
                     # 一些配置
-                    driver_path = cls.__driver_path
+                    driver_path = __driver_path
                     options = webdriver.ChromeOptions()
                     options.add_argument('disable-infobars')
 
                     try:
-                        if cls.__browser_exe_path is not None and cls.__browser_exe_path != '':
-                            exe_path = cls.__browser_exe_path + "\\chrome.exe"
+                        if __browser_exe_path is not None and __browser_exe_path != '':
+                            LoggerSingleton.instance().info("指定浏览器exe位置")
+                            exe_path = os.path.join(__browser_exe_path, "chrome.exe")
                             # 指定浏览器exe位置
                             options.binary_location = exe_path
                             BrowserSingleton.__browser_instance = webdriver.Chrome(executable_path=driver_path,
                                                                                    options=options)
                         else:
+                            LoggerSingleton.instance().info('默认安装位置')
                             # 默认安装位置
                             BrowserSingleton.__browser_instance = webdriver.Chrome(executable_path=driver_path,
                                                                                    options=options)

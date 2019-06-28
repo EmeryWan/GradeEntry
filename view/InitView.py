@@ -21,11 +21,15 @@ from util.Log import LoggerSingleton
 NULL_STR = ""
 BROWSER_TOOL_TIP = "点击打开浏览器"
 EXCEL_TOOL_TIP = "点击选择读取Excel的文件夹"
+ADVANCE_TIP = "提示：右键Chrome图标，点击打开所在位置可快速找到 （目录被隐藏请粘贴或手动输入）"
+PATH_SELECT_TIP = "请选择到 如：C:\\Users\\zhangwei\\AppData\\Local\\Google\\Chrome\\Application"
+ERROR_PATH_TIP = "路径选择错误！"
 
 MESSAGE_BOX_TITLE_EXIT = "退出"
 MESSAGE_BOX_EXIT_INFO = "注意！关闭程序后浏览器也会关闭！"
 
 FILE_DIALOG_INFO = "华东交通大学 - 成绩录入辅助软件 - 请选需要存放Excel的文件夹"
+PATH_DIALOG_INFO = "请选择 chrome.exe 的安装路径"
 
 EXCEL_THREAD_FINISH_TIP = "读取Excel信息完毕"
 BROWSER_THREAD_FINISH_TIP = "成功打开浏览器"
@@ -96,6 +100,9 @@ class InitView(QDialog):
         self.__browser_thread.signal_out.connect(self.__browser_thread_signal)
 
     def __init_config(self):
+        self.ui.btn_change_path.setVisible(False)
+        self.ui.label_curr_chrome_path.setText("")
+        self.ui.label_curr_chrome_path.setVisible(False)
         # 控件初始化
         self.ui.tip_label.setText(NULL_STR)
         self.ui.btn_open_browser.setToolTip(BROWSER_TOOL_TIP)
@@ -105,6 +112,8 @@ class InitView(QDialog):
         self.ui.btn_open_browser.clicked.connect(self.__open_browser)
         self.ui.btn_select_excel.clicked.connect(self.__select_excel_path)
         self.ui.btn_show_main_window.clicked.connect(self.__show_main_view)
+        self.ui.checkBox.clicked.connect(self.__show_advance)
+        self.ui.btn_change_path.clicked.connect(self.__chang_path)
 
     def closeEvent(self, event):
         reply = QMessageBox.question(self, MESSAGE_BOX_TITLE_EXIT, MESSAGE_BOX_EXIT_INFO,
@@ -200,3 +209,31 @@ class InitView(QDialog):
     def __auto_show_main_view(self):
         if self._browser_is_open_bool and self._excel_path_is_select_bool:
             self.__show_main_view()
+
+    def __show_advance(self):
+        if self.ui.checkBox.isChecked():
+            self.ui.btn_change_path.setVisible(True)
+            self.ui.tip_label.setText(ADVANCE_TIP)
+            self.ui.label_ecjtu_info.setVisible(False)
+            self.ui.label_curr_chrome_path.setText(PATH_SELECT_TIP)
+            self.ui.label_curr_chrome_path.setVisible(True)
+        else:
+            self.ui.btn_change_path.setVisible(False)
+            self.ui.label_curr_chrome_path.setVisible(False)
+            self.ui.label_ecjtu_info.setVisible(True)
+            self.ui.tip_label.setText(NULL_STR)
+
+    def __chang_path(self):
+        try:
+            excel_dir_path = QFileDialog.getExistingDirectory(self, PATH_DIALOG_INFO, "C:\\")
+            if excel_dir_path is not None or excel_dir_path != "":
+                SettingsInfo.BROWSER_EXE_PATH = excel_dir_path
+        except BaseException:
+            self.ui.tip_label.setText(ERROR_PATH_TIP)
+
+    def set_tip_info(self, msg):
+        """ 外界调用控制 label提示 """
+        self.ui.tip_label.setText(msg)
+
+    def set_path_info(self, msg):
+        self.ui.label_curr_chrome_path(msg)

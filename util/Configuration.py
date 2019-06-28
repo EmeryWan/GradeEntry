@@ -1,4 +1,5 @@
 import configparser
+import getpass
 import os
 
 from util.Log import LoggerSingleton
@@ -13,7 +14,10 @@ LOG_INFO_TEMP = "%s -- %s -- %s -- INFO"
 CONFIG_DIR_PATH = os.path.join(os.getcwd(), "config")
 
 # VersionLad.py
+# 系统安装目录
 CHROME_INSTALL_PATH = "C:\\Program Files (x86)\\Google\\Chrome\\Application"
+# 用户安装目录
+CHROME_INSTALL_PATH_USER = "C:\\Users\\" + getpass.getuser() + "\\AppData\\Local\\Google\\Chrome\\Application"
 
 CHROMEDRIVER_VERSION_JSON_NAME = "chromedriver.json"
 CHROMEDRIVER_VERSION_JSON_PATH = os.path.join(CONFIG_DIR_PATH, CHROMEDRIVER_VERSION_JSON_NAME)

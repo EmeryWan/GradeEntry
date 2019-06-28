@@ -10,13 +10,15 @@ from singleton.AboutViewSingleton import AboutViewSingle
 from util import Tool, Configuration
 from util.Configuration import CONFIG_DIR_PATH, CHROMEDRIVER_ZIP_NAME, CHROMEDRIVER_VERSION_JSON_PATH, \
     CHROME_INSTALL_PATH, CHROMEDRIVER_ZIP_PATH, CHROMEDRIVER_NAME, NPM_MIRRORS_URL, CHROMEDRIVER_PATH, \
-    LOG_ERROR_TEMPLATE, LOG_INFO_TEMP, CHROMEDRIVER_SPIDER_JSON_PATH, SettingsInfo
+    LOG_ERROR_TEMPLATE, LOG_INFO_TEMP, CHROMEDRIVER_SPIDER_JSON_PATH, SettingsInfo, CHROME_INSTALL_PATH_USER
 from util.Log import LoggerSingleton
 
 # Version final
 DRIVER_VERSION_DIVISION = 73
 
 SPLIT_VERSION_INFO_SIGN = "."
+
+CHROME_EXE = "chrome.exe"
 
 VERSION_CONFIG_MAP = {
 
@@ -35,13 +37,53 @@ TAOBAO_NPM_PAGE_LIST_INFO_TAG = "a"
 NEW_VERSION = 73
 
 
+########################
+
 class Version:
     CHROME_VERSION = ''
 
     CHROMEDRIVER_NEED_VERSION = ''
 
+    chrome_path = ''
+
     def __init__(self):
         pass
+
+    @classmethod
+    def confirm_chrome_default_path(cls):
+        try:
+            # 系统安装目录
+            try:
+                admin_path = CHROME_INSTALL_PATH
+                admin_list = os.listdir(admin_path)
+                if CHROME_EXE in admin_list:
+                    cls.chrome_path = admin_path
+                    LoggerSingleton.instance().info(
+                        LOG_INFO_TEMP % (cls.__class__.__name__, Tool.get_current_fun_name(), admin_path))
+                    return admin_path
+            except BaseException:
+                # FileNotFindException
+                pass
+
+            # 用户安装目录
+            try:
+                user_path = CHROME_INSTALL_PATH_USER
+                user_list = os.listdir(user_path)
+                if CHROME_EXE in user_list:
+                    cls.chrome_path = user_path
+                    LoggerSingleton.instance().info(
+                        LOG_INFO_TEMP % (cls.__class__.__name__, Tool.get_current_fun_name(), user_path))
+                    return user_path
+            except BaseException:
+                pass
+
+            return cls.chrome_path
+
+        except BaseException:
+            LoggerSingleton.instance().error(
+                LOG_ERROR_TEMPLATE % (cls.__class__.__name__, Tool.get_current_fun_name()))
+            Tool.show_error_page()
+            return ""
 
     @classmethod
     def get_version_info(cls):
@@ -58,12 +100,21 @@ class Version:
     def __load_chrome_version(cls):
         try:
             if SettingsInfo.BROWSER_EXE_PATH is not None:
+                LoggerSingleton.instance().info(
+                    LOG_INFO_TEMP % (cls.__class__.__name__, Tool.get_current_fun_name(), str(SettingsInfo.BROWSER_EXE_PATH)))
                 path = SettingsInfo.BROWSER_EXE_PATH
             else:
-                path = CHROME_INSTALL_PATH
+                path = cls.confirm_chrome_default_path()
+
+            if path is None or path == "":
+                Tool.show_error_page()
+                return
+
             dir_names = os.listdir(path)
             for name in dir_names:
                 if name[0].isdigit():
+                    LoggerSingleton.instance().info(
+                        LOG_INFO_TEMP % (cls.__class__.__name__, Tool.get_current_fun_name(), str(name)))
                     Version.CHROME_VERSION = name.split(SPLIT_VERSION_INFO_SIGN)[0]
         except BaseException:
             LoggerSingleton.instance().error(
@@ -117,7 +168,12 @@ class DownLoad:
 
     @classmethod
     def start_download(cls):
+
+        if Version.CHROMEDRIVER_NEED_VERSION == '' or Version.CHROMEDRIVER_NEED_VERSION is None:
+            return False
+
         url = NPM_MIRRORS_URL + "/" + Version.CHROMEDRIVER_NEED_VERSION + "/" + CHROMEDRIVER_ZIP_NAME
+
         LoggerSingleton.instance().info(
             LOG_INFO_TEMP % (cls.__class__.__name__, Tool.get_current_fun_name(), url))
 
@@ -133,6 +189,8 @@ class DownLoad:
                     LOG_ERROR_TEMPLATE % (cls.__class__.__name__, Tool.get_current_fun_name()))
                 Tool.show_error_page()
 
+        return True
+
     @classmethod
     def __down(cls, url):
         # 删除存在文件
@@ -144,6 +202,11 @@ class DownLoad:
 
     @classmethod
     def unzip(cls):
+
+        names = os.listdir(CONFIG_DIR_PATH)
+        if CHROMEDRIVER_ZIP_NAME not in names:
+            return False
+
         LoggerSingleton.instance().info(
             LOG_INFO_TEMP % (cls.__class__.__name__, Tool.get_current_fun_name(), CHROMEDRIVER_ZIP_PATH))
 
@@ -157,10 +220,12 @@ class DownLoad:
             Configuration.UNZIP_ERROR_SIGN = True
             LoggerSingleton.instance().error(
                 LOG_ERROR_TEMPLATE % (cls.__class__.__name__, Tool.get_current_fun_name()))
+        return True
 
     @classmethod
     def __delete_exist(cls):
-        names = os.listdir(CHROME_INSTALL_PATH)
+        """ 清除 config 文件夹中旧版 chromedriver """
+        names = os.listdir(CONFIG_DIR_PATH)
 
         LoggerSingleton.instance().info(
             LOG_INFO_TEMP % (cls.__class__.__name__, Tool.get_current_fun_name(), names))
