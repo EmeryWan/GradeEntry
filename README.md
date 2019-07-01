@@ -1,8 +1,8 @@
-# [点我下载 exe](https://gitee.com/EmeryWan/GradeEntry/attach_files/248082/download)
+# [点我下载 exe](https://github.com/EmeryWan/GradeEntry/releases)
 
 exe 双击即可运行  
 
-### [点我下载简略说明PDF](https://gitee.com/EmeryWan/GradeEntry/attach_files/248081/download)
+### [点我下载简略说明PDF](https://github.com/EmeryWan/GradeEntry/releases)
 
 # 华东交通大学成绩录入辅助软件
 
@@ -21,9 +21,7 @@ python GreadEntryApplication.py
 
 ## 了解详情
 
-[点我切换到开发分支](https://gitee.com/EmeryWan/GradeEntry/tree/dev-master/)  
-
-[github](https://github.com/EmeryWan/GradeEntry)
+[码云](https://gitee.com/EmeryWan/GradeEntry)
 
 # 使用教程
 
@@ -33,7 +31,7 @@ python GreadEntryApplication.py
 
 ![软件](./readme_imgs/1.png)
 
-双击 exe 文件即可运行
+**双击 exe 文件即可运行**
 
 ## 初始界面
 
@@ -90,7 +88,7 @@ python GreadEntryApplication.py
 
 ![等级制](./readme_imgs/12.png)
 
---- 
+---
 
 # 一些问题说明
 
