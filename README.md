@@ -1,16 +1,14 @@
-# [点我下载 exe](https://github.com/EmeryWan/GradeEntry/releases)
+## [点我下载 exe](https://github.com/EmeryWan/GradeEntry/releases)
 
-exe 双击即可运行  
+双击exe即可运行  
 
-### [点我下载简略说明PDF](https://github.com/EmeryWan/GradeEntry/releases)
+## [点我下载简略说明PDF](https://github.com/EmeryWan/GradeEntry/releases)
 
 # 华东交通大学成绩录入辅助软件
 
-华东交通大学 - 软件学院 - 和平研究院
+华东交通大学 - 软件学院 - 和平新技术研究院
 
 ## 源码运行
-
-pip install 太慢建议修改源镜像
 
 ```shell
 git clone https://gitee.com/EmeryWan/GradeEntry.git
