@@ -4,9 +4,9 @@
 
 ## [点我下载简略说明PDF](https://github.com/EmeryWan/GradeEntry/releases)
 
-# 华东交通大学成绩录入辅助软件
+# 成绩录入辅助软件
 
-华东交通大学 - 软件学院 - 和平新技术研究院
+软件学院 - 和平新技术研究院
 
 ## 源码运行
 
@@ -16,10 +16,6 @@ cd ./GradeEntry
 pip install -r requirements.txt
 python GreadEntryApplication.py
 ```
-
-## 了解详情
-
-[码云](https://gitee.com/EmeryWan/GradeEntry)
 
 # 使用教程
 
